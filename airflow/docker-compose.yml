@@ -1,0 +1,107 @@
+version: "3.8"
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+    AIRFLOW__CORE__ENABLE_XCOM_PICKLING: "true"
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
+    AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
+    PYTHONPATH: /opt/airflow
+    # Project service endpoints
+    CLICKHOUSE_HOST: clickhouse
+    CLICKHOUSE_PORT: 8123
+    KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    MANDI_API_BASE_URL: https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ./config:/opt/airflow/config
+    - ../src:/opt/airflow/src:ro
+    - ../clickhouse:/opt/airflow/clickhouse:ro
+    - ../data:/opt/airflow/data
+    - ../reports:/opt/airflow/reports
+  networks:
+    - agripulse-net
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: agripulse-airflow-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agripulse-net
+
+  airflow-init:
+    <<: *airflow-common
+    container_name: agripulse-airflow-init
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db migrate && \
+        airflow users create \
+          --username admin \
+          --password admin \
+          --firstname AgriPulse \
+          --lastname Admin \
+          --role Admin \
+          --email admin@agripulse.local || true
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: agripulse-airflow-webserver
+    restart: always
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: agripulse-airflow-scheduler
+    restart: always
+    command: scheduler
+    healthcheck:
+      test: ["CMD-SHELL", "airflow jobs check --job-type SchedulerJob --hostname \"$${HOSTNAME}\" || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+volumes:
+  airflow_postgres_data:
+    name: agripulse_airflow_postgres_data
+
+networks:
+  agripulse-net:
+    name: agripulse-net
+    external: true

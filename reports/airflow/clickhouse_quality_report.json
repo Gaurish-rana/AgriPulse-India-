@@ -1,0 +1,60 @@
+{
+  "pipeline": "clickhouse_quality_pipeline",
+  "executed_at_utc": "2026-11-16T22:36:37.287788+00:00",
+  "database_structure": {
+    "databases": [
+      "agripulse_raw",
+      "agripulse_clean",
+      "agripulse_mart"
+    ],
+    "tables": {
+      "agripulse_raw": [
+        "load_audit",
+        "raw_crop_production",
+        "raw_mandi_prices",
+        "raw_weather"
+      ],
+      "agripulse_clean": [
+        "clean_crop_production",
+        "clean_mandi_prices",
+        "clean_weather",
+        "kafka_mandi_prices_queue",
+        "mv_kafka_mandi_prices"
+      ],
+      "agripulse_mart": [
+        "dim_commodity",
+        "dim_date",
+        "dim_location",
+        "fact_crop_production",
+        "fact_mandi_prices",
+        "fact_weather"
+      ]
+    }
+  },
+  "row_count_validation": {
+    "clean_counts": {
+      "mandi": 12727,
+      "crop": 246091,
+      "weather": 7121520
+    },
+    "fact_counts": {
+      "fact_mandi_prices": 12726,
+      "fact_crop_production": 246091,
+      "fact_weather": 7121520
+    },
+    "all_benchmarks_satisfied": true
+  },
+  "business_rules": {
+    "coconut_unit_segregation_valid": true,
+    "field_crop_unit_segregation_valid": true,
+    "negative_temperatures_preserved": 854937,
+    "min_temperature_observed": -34.62,
+    "max_negative_temp_observed": -0.01,
+    "dimensions": {
+      "dim_date": 14975,
+      "dim_location": 2442,
+      "dim_commodity": 2050
+    }
+  },
+  "status": "HEALTHY"
+}

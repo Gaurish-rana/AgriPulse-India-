@@ -30,3 +30,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - agripulse-net
+
+networks:
+  agripulse-net:
+    name: agripulse-net
+    external: true

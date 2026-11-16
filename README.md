@@ -17,16 +17,24 @@ A scalable Big Data engineering and analytics platform designed to analyze India
                                    [Kafka: mandi-prices-clean]                                    [Kafka: mandi-prices-invalid]
                                                |
                                                v
-                                        [Kafka Connect] ---> [Snowflake DWH] ---> [Power BI Dashboards]
-                                                                    ^
-[Historical Batch Ingestion] ---> [Batch Cleaning (Phase 1.5)] -----+
-  • Crop Production (246K rows)      • Parquet Partitioning
-  • NASA POWER (16.18M rows)         • Unit Segregation & Boundary Dedup
+                                [ClickHouse Stream Consumer]
+                                               |
+                                               v
+[Historical Batch Ingestion] ---> [ClickHouse Data Warehouse (Local Docker)] ---> [Power BI Dashboards (Phase 5)]
+  • Crop Production (246K rows)      • agripulse_raw (audit & staging)
+  • NASA POWER (7.12M rows)          • agripulse_clean (ReplacingMergeTree conformed)
+                                     • agripulse_mart (Star Schema Facts & Dims)
+                                               ^
+                                               |
+                                 [Apache Airflow Orchestration]
+                                   • 5 Automated Pipelines & Monitoring
 ```
 
-- **Mandi Wholesale Prices**: Handled via real-time / periodic streaming through Apache Kafka and Spark Structured Streaming.
-- **Crop Production & NASA Weather**: Handled via batch cleaning and Parquet partitioning.
-- **Downstream Warehouse & BI**: Snowflake and Power BI (subsequent phases).
+- **Mandi Wholesale Prices**: Handled via real-time / periodic streaming through Apache Kafka, Spark Structured Streaming, and ClickHouse Stream Ingestion.
+- **Crop Production & NASA Weather**: Handled via batch cleaning, Parquet partitioning, and Apache Arrow streaming into ClickHouse.
+- **Data Warehouse**: Free, open-source, self-hosted ClickHouse (databases: `agripulse_raw`, `agripulse_clean`, `agripulse_mart`).
+- **Orchestration & Monitoring**: Apache Airflow running on Docker with 5 dedicated DAGs and a centralized Web UI.
+- **Downstream BI**: Power BI connected via native ClickHouse ODBC/REST (Phase 5).
 
 ---
 
@@ -236,7 +244,56 @@ python -m clickhouse.validation
 
 ---
 
-## 7. Next Steps (Phase 4 Roadmap)
+## 7. Phase 4: Apache Airflow Orchestration & Workflow Monitoring
 
-- **Apache Airflow**: Orchestrate daily batch jobs, sensor checks, and pipeline monitoring.
-- **Power BI / Analytics**: Connect DirectQuery/Import to Snowflake MART models for dashboard reporting.
+AgriPulse India uses **Apache Airflow** (LocalExecutor with PostgreSQL backend running via Docker Compose) to coordinate periodic ingestion, manage incremental batch loads, execute data quality assertions, and monitor distributed infrastructure components.
+
+### Airflow Pipeline Architecture
+
+| DAG ID | Schedule | Purpose & Core Tasks |
+|---|---|---|
+| `mandi_price_pipeline` | `0 */4 * * *` (Every 4 hrs) | 1. Mandi API endpoint reachability check.<br>2. Mandi Kafka Producer polling (respects `data/interim/producer_seen_records.json`).<br>3. Verifies clean streaming records in ClickHouse `agripulse_clean.clean_mandi_prices`.<br>4. Outputs `reports/airflow/mandi_pipeline_report.json`. |
+| `crop_production_pipeline` | `0 2 * * *` (Daily at 02:00 UTC) | 1. Scans `data/raw/crop_production/` using fingerprint hash (`data/interim/processed_crop_files.json`).<br>2. **Strict Rule**: Skips execution when no files changed (never reloads existing 246,091 records).<br>3. Cleans, standardizes state names, validates units (Nuts vs Tonnes), and updates warehouse.<br>4. Outputs `reports/airflow/crop_pipeline_report.json`. |
+| `weather_pipeline` | `0 3 * * *` (Daily at 03:00 UTC) | 1. Scans `data/raw/nasa_power/` against `data/interim/processed_weather_files.json`.<br>2. **Strict Rule**: Skips execution when all 784 tiles are processed (prevents re-reading 7.12M records).<br>3. Cleans new tiles, preserves negative temperatures (-34.6°C), partitions Parquet, and loads via Arrow streaming.<br>4. Outputs `reports/airflow/weather_pipeline_report.json`. |
+| `clickhouse_quality_pipeline` | `0 4 * * *` (Daily at 04:00 UTC) | 1. Validates all 3 ClickHouse databases (`agripulse_raw`, `agripulse_clean`, `agripulse_mart`).<br>2. Checks row counts against strict historical benchmarks (`>= 12,726` Mandi, `>= 246,091` Crop, `>= 7,121,520` Weather).<br>3. Validates dimensional key integrity and ensures 0 unmapped foreign keys.<br>4. Validates unit segregation (Coconuts in Nuts, other crops in Tonnes) and negative temperatures.<br>5. Refreshes analytical marts and outputs `reports/airflow/clickhouse_quality_report.json`. |
+| `infrastructure_monitoring` | `*/15 * * * *` (Every 15 mins) | 1. Apache Kafka Broker health, connectivity, and topic/partition checks.<br>2. Spark Structured Streaming checkpoint directory and runtime health.<br>3. ClickHouse HTTP (8123) / Native (9000) health and database readiness.<br>4. Outputs `reports/airflow/infrastructure_health_report.json`. |
+
+### Airflow Web Interface & Access
+- **Web UI URL**: [http://localhost:8080](http://localhost:8080)
+- **Default Credentials**: `admin` / `admin`
+- **Container Architecture**:
+  - `agripulse-airflow-webserver`: Airflow UI service exposed on host port 8080.
+  - `agripulse-airflow-scheduler`: Airflow job scheduler and task monitor.
+  - `agripulse-airflow-postgres`: PostgreSQL 15 metadata database.
+  - `agripulse-airflow-init`: Auto-initialization database migration and admin user creation.
+  - Network: Connected to shared bridge `agripulse-net` alongside `agripulse-clickhouse` and `agripulse-kafka`.
+
+### Quick Commands for Airflow
+
+```bash
+# 1. Start Airflow services
+docker compose -f airflow/docker-compose.yml up -d
+
+# 2. List registered DAGs (0 import errors)
+docker exec agripulse-airflow-scheduler airflow dags list
+
+# 3. Test run any DAG manually from CLI
+docker exec agripulse-airflow-scheduler airflow dags test infrastructure_monitoring
+docker exec agripulse-airflow-scheduler airflow dags test clickhouse_quality_pipeline
+docker exec agripulse-airflow-scheduler airflow dags test crop_production_pipeline
+docker exec agripulse-airflow-scheduler airflow dags test weather_pipeline
+docker exec agripulse-airflow-scheduler airflow dags test mandi_price_pipeline
+
+# 4. View Airflow container logs
+docker compose -f airflow/docker-compose.yml logs -f
+```
+
+---
+
+## 8. Phase 5 Roadmap: Power BI Analytics & Reporting
+
+- **Power BI Direct Connection**: Connect Power BI to ClickHouse Star Schema marts (`agripulse_mart.fact_mandi_prices`, `fact_crop_production`, `fact_weather`).
+- **Interactive Dashboards**:
+  1. Mandi Wholesale Price Volatility & Arbitrage Tracker.
+  2. Crop Production vs Climate & Rainfall Correlation.
+  3. Regional Weather Extremes & Drought / Flood Vulnerability Index.

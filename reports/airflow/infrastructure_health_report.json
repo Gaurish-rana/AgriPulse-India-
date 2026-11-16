@@ -1,0 +1,48 @@
+{
+  "pipeline": "infrastructure_monitoring",
+  "timestamp_utc": "2026-11-16T22:33:31.824200+00:00",
+  "kafka": {
+    "bootstrap_server": "kafka:9092",
+    "connected": true,
+    "available_topics": [
+      "mandi-prices-invalid",
+      "mandi-prices-clean",
+      "__consumer_offsets",
+      "mandi-prices-raw"
+    ],
+    "required_topics_present": true,
+    "missing_topics": []
+  },
+  "spark": {
+    "engine": "Apache Spark Structured Streaming (PySpark)",
+    "checkpoints": {
+      "spark_mandi_clean": {
+        "exists": false,
+        "path": "/opt/data/checkpoints/spark_mandi_clean"
+      },
+      "spark_mandi_invalid": {
+        "exists": false,
+        "path": "/opt/data/checkpoints/spark_mandi_invalid"
+      }
+    },
+    "runtime_ready": true
+  },
+  "clickhouse": {
+    "connected": true,
+    "server_version": "24.3.18.7",
+    "databases_found": [
+      "INFORMATION_SCHEMA",
+      "agripulse_clean",
+      "agripulse_mart",
+      "agripulse_raw",
+      "default",
+      "information_schema",
+      "system"
+    ],
+    "table_counts": {
+      "agripulse_clean": 5,
+      "agripulse_mart": 6
+    }
+  },
+  "overall_health": "HEALTHY"
+}
