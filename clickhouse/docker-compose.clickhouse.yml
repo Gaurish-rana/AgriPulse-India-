@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.3-alpine
+    container_name: agripulse-clickhouse
+    hostname: clickhouse
+    ports:
+      - "8123:8123"   # HTTP interface (for Web UI, curl, and clickhouse-connect Python client)
+      - "9000:9000"   # Native TCP client protocol
+    environment:
+      CLICKHOUSE_DB: agripulse_clean
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    volumes:
+      # Persistent storage
+      - clickhouse_data:/var/lib/clickhouse
+      # Auto-run SQL initialization scripts in sequence
+      - ./sql:/docker-entrypoint-initdb.d:ro
+      # Read-only mount of local datasets for direct zero-copy Parquet imports
+      - ../data:/var/lib/clickhouse/user_files/data:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8123/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agripulse-net
+
+volumes:
+  clickhouse_data:
+    name: agripulse_clickhouse_data
+
+networks:
+  agripulse-net:
+    name: agripulse-net
+    driver: bridge

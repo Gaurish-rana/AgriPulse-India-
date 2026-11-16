@@ -39,6 +39,16 @@ class PathConfig:
     LOG_DIR: str = os.getenv("LOG_DIR", "logs")
 
 
+class ClickHouseConfig:
+    HOST: str = os.getenv("CLICKHOUSE_HOST", "localhost")
+    PORT: int = int(os.getenv("CLICKHOUSE_PORT", "8123"))
+    USER: str = os.getenv("CLICKHOUSE_USER", "default")
+    PASSWORD: str = os.getenv("CLICKHOUSE_PASSWORD", "")
+    DB_RAW: str = os.getenv("CLICKHOUSE_DB_RAW", "agripulse_raw")
+    DB_CLEAN: str = os.getenv("CLICKHOUSE_DB_CLEAN", "agripulse_clean")
+    DB_MART: str = os.getenv("CLICKHOUSE_DB_MART", "agripulse_mart")
+
+
 class SnowflakeConfig:
     ACCOUNT: str = os.getenv("SNOWFLAKE_ACCOUNT", "")
     USER: str = os.getenv("SNOWFLAKE_USER", "")

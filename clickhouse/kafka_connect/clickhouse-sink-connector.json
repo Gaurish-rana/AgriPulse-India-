@@ -1,0 +1,21 @@
+{
+  "name": "clickhouse-sink-mandi-clean",
+  "config": {
+    "connector.class": "com.clickhouse.kafka.connect.ClickHouseSinkConnector",
+    "tasks.max": "1",
+    "topics": "mandi-prices-clean",
+    "hostname": "clickhouse",
+    "port": "8123",
+    "ssl": "false",
+    "username": "default",
+    "password": "",
+    "database": "agripulse_clean",
+    "clickhouseSettings": "",
+    "topic2TableMap": "mandi-prices-clean:clean_mandi_prices",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "mandi-prices-clickhouse-dlq"
+  }
+}

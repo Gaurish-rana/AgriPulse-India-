@@ -205,31 +205,33 @@ Processed batch data is saved in Snappy Parquet:
 
 ---
 
-## 6. Phase 3: Snowflake Cloud Data Warehouse Integration
+## 6. Phase 3: ClickHouse Open-Source Data Warehouse Integration
 
-The platform integrates all cleaned batch and streaming data into **Snowflake (`AGRIPULSE_DB`)**:
+The platform integrates all cleaned batch and streaming data into a 100% free, self-hosted **ClickHouse** analytical warehouse via Docker Compose:
 
 ### Database Architecture
-- **RAW Schema**: Ingestion staging tables (`RAW_MANDI_PRICES`, `RAW_CROP_PRODUCTION`, `RAW_WEATHER`) and `LOAD_AUDIT`.
-- **CLEAN Schema**: Conformed tables with primary business keys (`CLEAN_MANDI_PRICES`, `CLEAN_CROP_PRODUCTION`, `CLEAN_WEATHER`).
-- **MART Schema (Star Schema)**:
-  - Dimensions: `DIM_DATE` (1995–2035), `DIM_LOCATION` (States, Districts, APMCs), `DIM_COMMODITY`.
-  - Facts: `FACT_MANDI_PRICES`, `FACT_CROP_PRODUCTION` (preserving Coconut Nuts vs Crop Tonnes), `FACT_WEATHER` (preserving sub-zero temps).
+- **`agripulse_raw` Database**: Landing zone for raw ingestions and pipeline execution tracking (`load_audit`, `raw_mandi_prices`, `raw_crop_production`, `raw_weather`).
+- **`agripulse_clean` Database**: Conformed tables utilizing `ReplacingMergeTree` for automatic deduplication (`clean_mandi_prices`, `clean_crop_production`, `clean_weather`, `kafka_mandi_prices_queue`).
+- **`agripulse_mart` Database (Star Schema)**:
+  - Dimensions: `dim_date` (1995–2035), `dim_location`, `dim_commodity`.
+  - Facts: `fact_mandi_prices` (₹/quintal), `fact_crop_production` (Coconut Nuts vs Field Crop Tonnes strictly segregated), `fact_weather` (sub-zero temperatures down to -17°C preserved).
 
-### Execution Commands
+### Quick Execution Commands
 ```bash
-# 1. Test Snowflake Connection
-python -m snowflake.connection
+# 1. Start ClickHouse locally (FOSS version)
+docker compose -f clickhouse/docker-compose.clickhouse.yml up -d
 
-# 2. Batch Ingest Parquet into Snowflake
-python -m snowflake.batch_loader --sample       # Sample test
-python -m snowflake.batch_loader --dataset all  # Complete load
+# 2. Run Master Orchestrator (Auto-deploys DDLs, batch loads, streams, and validates)
+python run_phase3_clickhouse.py
 
-# 3. Stream Kafka Mandi Clean into Snowflake
-python -m snowflake.kafka_connect.snowflake_stream_consumer --batch-size 50
+# 3. Direct Batch Load
+python -m clickhouse.batch_loader --dataset all
 
-# 4. Run Warehouse Validation & Reconciliation
-python -m snowflake.validation
+# 4. Run Streaming Consumer from Kafka topic mandi-prices-clean
+python -m clickhouse.kafka_connect.clickhouse_stream_consumer --batch-size 50
+
+# 5. Run Full Validation Suite
+python -m clickhouse.validation
 ```
 
 ---
