@@ -27,9 +27,7 @@ pbip_manifest = {
             }
         }
     ],
-    "settings": {
-        "enableAutoAuth": True
-    }
+    "settings": {}
 }
 
 with open(os.path.join(BASE_DIR, "AgriPulse_India.pbip"), "w", encoding="utf-8") as f:
@@ -50,8 +48,7 @@ report_def = {
     "datasetReference": {
         "byPath": {
             "path": "../AgriPulse_India.Dataset"
-        },
-        "byConnection": None
+        }
     }
 }
 
