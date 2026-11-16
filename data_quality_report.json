@@ -1,0 +1,106 @@
+{
+  "nasa_power": {
+    "total_files": 784,
+    "total_rows": 16177280,
+    "total_size_mb": 406.6,
+    "parameters": {
+      "PRECTOTCORR": 392,
+      "T2M": 392
+    },
+    "years": [
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026"
+    ],
+    "tiles": 56,
+    "lat_range": [
+      6.5,
+      37.5
+    ],
+    "lon_range": [
+      68.125,
+      95.625
+    ],
+    "missing_files": 0,
+    "missing_markers_999": 12880,
+    "doy_issues": "0",
+    "negative_rainfall": "0",
+    "extreme_rainfall_200plus": "1042",
+    "cold_extreme_below_minus20": "41733",
+    "hot_extreme_above_55": "0",
+    "file_format": "CSV with 9-line metadata header, columns: LAT,LON,YEAR,DOY,<PARAM>",
+    "resolution": "0.5 x 0.625 degree grid (MERRA-2 native)"
+  },
+  "crop_production": {
+    "total_rows": 246091,
+    "columns": [
+      "State_Name",
+      "District_Name",
+      "Crop_Year",
+      "Season",
+      "Crop",
+      "Area",
+      "Production"
+    ],
+    "dtypes": {
+      "State_Name": "object",
+      "District_Name": "object",
+      "Crop_Year": "int64",
+      "Season": "object",
+      "Crop": "object",
+      "Area": "float64",
+      "Production": "float64"
+    },
+    "null_production": 3730,
+    "null_production_pct": 1.52,
+    "duplicate_rows": "0",
+    "states": 33,
+    "districts": 646,
+    "crops": 124,
+    "year_range": "1997 to 2015",
+    "seasons": [
+      "Autumn",
+      "Kharif",
+      "Rabi",
+      "Summer",
+      "Whole Year",
+      "Winter"
+    ],
+    "issues": [
+      "Production column has 3,730 nulls (1.52%)",
+      "Season values have trailing whitespace",
+      "District names are ALL CAPS (inconsistent with other datasets)",
+      "Some Production values are 0 (may be legitimate crop failures)",
+      "Extreme yield values suggest possible unit inconsistencies"
+    ]
+  },
+  "mandi_prices": {
+    "total_rows": 12726,
+    "columns": [
+      "state",
+      "district",
+      "market",
+      "commodity",
+      "variety",
+      "grade",
+      "arrival_date",
+      "min_price",
+      "max_price",
+      "modal_price"
+    ],
+    "null_values": "None (0 across all columns)",
+    "duplicate_rows": "0",
+    "states": 25,
+    "commodities": 253,
+    "date_range": "Single day: 2026-11-16",
+    "date_format": "DD/MM/YYYY",
+    "price_logic_violations": 0,
+    "issues": [
+      "State name mismatches with crop production dataset"
+    ]
+  }
+}

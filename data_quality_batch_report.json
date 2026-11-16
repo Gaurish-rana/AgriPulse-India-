@@ -1,0 +1,38 @@
+{
+  "pipeline_name": "AgriPulse India Phase 1.5 Batch Processing",
+  "started_at": "2026-11-17T02:06:31.500574",
+  "stages": {
+    "mandi_prices": {
+      "status": "SUCCESS",
+      "duration_seconds": 0.44,
+      "raw_rows": 12726,
+      "clean_rows": 12726,
+      "unique_states": 25,
+      "unique_commodities": 253,
+      "output_file": "data\\processed\\mandi_prices_clean\\mandi_prices_clean.parquet"
+    },
+    "crop_production": {
+      "status": "SUCCESS",
+      "duration_seconds": 2.63,
+      "raw_rows": 246091,
+      "clean_rows": 246091,
+      "unique_states": 33,
+      "unique_crops": 124,
+      "missing_production_flagged": 3730,
+      "output_file": "data\\processed\\crop_production_clean\\crop_production_clean.parquet"
+    },
+    "nasa_weather": {
+      "status": "SUCCESS",
+      "duration_seconds": 18.11,
+      "raw_files": 784,
+      "raw_rows_input": 16177280,
+      "consolidated_output_rows": 7121520,
+      "boundary_duplicates_dropped": 1934240,
+      "missing_markers_nullified": 11340,
+      "subzero_temps_preserved": 854937,
+      "partitions_dir": "data\\processed\\nasa_weather_clean"
+    }
+  },
+  "completed_at": "2026-11-17T02:06:52.677220",
+  "total_pipeline_duration_seconds": 21.18
+}

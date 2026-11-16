@@ -1,0 +1,45 @@
+raw_state_name,standard_state_name,state_code,category,notes
+Andaman and Nicobar Islands,Andaman and Nicobar Islands,AN,Union Territory,Standard official name
+Andhra Pradesh,Andhra Pradesh,AP,State,Standard official name
+Arunachal Pradesh,Arunachal Pradesh,AR,State,Standard official name
+Assam,Assam,AS,State,Standard official name
+Bihar,Bihar,BR,State,Standard official name
+Chandigarh,Chandigarh,CH,Union Territory,Standard official name
+Chattisgarh,Chhattisgarh,CT,State,Alternative spelling found in Mandi API
+Chhattisgarh,Chhattisgarh,CT,State,Standard official name
+Dadra and Nagar Haveli,Dadra and Nagar Haveli,DN,Union Territory,Standard official name
+Daman and Diu,Daman and Diu,DD,Union Territory,Standard official name
+Delhi,Delhi,DL,Union Territory,National Capital Territory
+Goa,Goa,GA,State,Standard official name
+Gujarat,Gujarat,GJ,State,Standard official name
+Haryana,Haryana,HR,State,Standard official name
+Himachal Pradesh,Himachal Pradesh,HP,State,Standard official name
+Jammu and Kashmir,Jammu and Kashmir,JK,Union Territory,Standard official name
+Jammu and Kashmir ,Jammu and Kashmir,JK,Union Territory,Trailing whitespace found in Crop Production CSV
+Jharkhand,Jharkhand,JH,State,Standard official name
+Karnataka,Karnataka,KA,State,Standard official name
+Kerala,Kerala,KL,State,Standard official name
+Keralam,Kerala,KL,State,Malayalam regional name found in Mandi API
+Ladakh,Ladakh,LA,Union Territory,Standard official name
+Lakshadweep,Lakshadweep,LD,Union Territory,Standard official name
+Madhya Pradesh,Madhya Pradesh,MP,State,Standard official name
+Maharashtra,Maharashtra,MH,State,Standard official name
+Manipur,Manipur,MN,State,Standard official name
+Meghalaya,Meghalaya,ML,State,Standard official name
+Mizoram,Mizoram,MZ,State,Standard official name
+Nagaland,Nagaland,NL,State,Standard official name
+Odisha,Odisha,OR,State,Standard official name
+Orissa,Odisha,OR,State,Historical official spelling
+Pondicherry,Puducherry,PY,Union Territory,Former colonial official name in Mandi API
+Puducherry,Puducherry,PY,Union Territory,Standard official name
+Punjab,Punjab,PB,State,Standard official name
+Rajasthan,Rajasthan,RJ,State,Standard official name
+Sikkim,Sikkim,SK,State,Standard official name
+Tamil Nadu,Tamil Nadu,TN,State,Standard official name
+Telangana,Telangana,TG,State,Standard official name
+Telangana ,Telangana,TG,State,Trailing whitespace found in Crop Production CSV
+Tripura,Tripura,TR,State,Standard official name
+Uttar Pradesh,Uttar Pradesh,UP,State,Standard official name
+Uttarakhand,Uttarakhand,UT,State,Standard official name
+Uttaranchal,Uttarakhand,UT,State,Former official name
+West Bengal,West Bengal,WB,State,Standard official name

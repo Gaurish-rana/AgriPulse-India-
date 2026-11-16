@@ -1,0 +1,427 @@
+{
+  "dataset_name": "crop_production",
+  "report_generated_at": "2026-11-17T02:06:34.388025",
+  "summary": {
+    "rows_raw_input": 246091,
+    "rows_processed_output": 246091,
+    "net_row_change": 0,
+    "columns_before": 7,
+    "columns_after": 15
+  },
+  "cleaning_decisions_and_traceability": [
+    {
+      "step": "column_standardization",
+      "action": "Renamed raw columns to snake_case with explicit unit suffix (area_hectares).",
+      "affected_columns": [
+        "state_name",
+        "district_name",
+        "crop_year",
+        "season",
+        "crop_name",
+        "area_hectares",
+        "production"
+      ],
+      "records_affected": 246091
+    },
+    {
+      "step": "text_whitespace_and_casing_cleanup",
+      "action": "Trimmed whitespace from all text columns; normalized Season and District names to Title Case.",
+      "affected_columns": [
+        "state_name",
+        "district_name",
+        "season",
+        "crop_name"
+      ],
+      "records_affected": 246091
+    },
+    {
+      "step": "state_name_standardization",
+      "action": "Normalized state names using state_name_mapping.csv (fixed whitespace in Jammu and Kashmir, Telangana).",
+      "states_mapped": [],
+      "records_affected": 7283
+    },
+    {
+      "step": "missing_production_handling",
+      "action": "Preserved NaN for missing production values (never replaced with 0 to prevent yield bias). Created boolean flag is_production_missing.",
+      "missing_production_records": 3730,
+      "zero_production_crop_failures": 3523,
+      "records_retained": 246091
+    },
+    {
+      "step": "coconut_unit_segregation",
+      "action": "Segregated Coconut production (Nuts) from general crop production (Tonnes) into dedicated columns to prevent incompatible unit mixing.",
+      "coconut_records": 1985,
+      "tonne_based_records": 244106,
+      "records_affected": 246091
+    },
+    {
+      "step": "numerical_validation",
+      "action": "Validated positive area and non-negative production. Flagged incomplete survey year 2015 in is_incomplete_year.",
+      "invalid_area_count": 0,
+      "negative_production_count": 0,
+      "incomplete_year_2015_records": 562,
+      "records_retained": 246091
+    },
+    {
+      "step": "deduplication",
+      "action": "Verified zero exact and zero business key duplicates.",
+      "duplicates_removed": 0
+    }
+  ],
+  "before_quality_profile": {
+    "dataset_name": "crop_production",
+    "stage": "raw",
+    "timestamp": "2026-11-17T02:06:32.246327",
+    "total_rows": 246091,
+    "total_columns": 7,
+    "column_names": [
+      "State_Name",
+      "District_Name",
+      "Crop_Year",
+      "Season",
+      "Crop",
+      "Area",
+      "Production"
+    ],
+    "data_types": {
+      "State_Name": "object",
+      "District_Name": "object",
+      "Crop_Year": "int64",
+      "Season": "object",
+      "Crop": "object",
+      "Area": "float64",
+      "Production": "float64"
+    },
+    "missing_values_count": {
+      "State_Name": 0,
+      "District_Name": 0,
+      "Crop_Year": 0,
+      "Season": 0,
+      "Crop": 0,
+      "Area": 0,
+      "Production": 3730
+    },
+    "missing_values_pct": {
+      "State_Name": 0.0,
+      "District_Name": 0.0,
+      "Crop_Year": 0.0,
+      "Season": 0.0,
+      "Crop": 0.0,
+      "Area": 0.0,
+      "Production": 1.516
+    },
+    "exact_duplicates": 0,
+    "business_key_duplicates": 0,
+    "date_range": null,
+    "state_summary": {
+      "unique_state_count": 33,
+      "states": [
+        "Andaman and Nicobar Islands",
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chandigarh",
+        "Chhattisgarh",
+        "Dadra and Nagar Haveli",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jammu and Kashmir ",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Puducherry",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana ",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+      ]
+    },
+    "item_summary": {
+      "unique_item_count": 124,
+      "top_10_frequencies": {
+        "Rice": 15104,
+        "Maize": 13947,
+        "Moong(Green Gram)": 10318,
+        "Urad": 9850,
+        "Sesamum": 9046,
+        "Groundnut": 8834,
+        "Sugarcane": 7921,
+        "Wheat": 7899,
+        "Rapeseed &Mustard": 7592,
+        "Arhar/Tur": 7578
+      }
+    },
+    "geo_summary": null,
+    "numeric_summary": {
+      "Area": {
+        "count": 246091,
+        "min": 0.04,
+        "p25": 80.0,
+        "median": 582.0,
+        "p75": 4392.0,
+        "max": 8580100.0,
+        "mean": 12002.82086370489,
+        "std": 50523.404018913716,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "Production": {
+        "count": 242361,
+        "min": 0.0,
+        "p25": 88.0,
+        "median": 729.0,
+        "p75": 7023.0,
+        "max": 1250800000.0,
+        "mean": 582503.442250981,
+        "std": 17065813.172410317,
+        "zero_count": 3523,
+        "negative_count": 0
+      },
+      "Crop_Year": {
+        "count": 246091,
+        "min": 1997.0,
+        "p25": 2002.0,
+        "median": 2006.0,
+        "p75": 2010.0,
+        "max": 2015.0,
+        "mean": 2005.6430182330926,
+        "std": 4.952163852561266,
+        "zero_count": 0,
+        "negative_count": 0
+      }
+    }
+  },
+  "after_quality_profile": {
+    "dataset_name": "crop_production",
+    "stage": "processed_clean",
+    "timestamp": "2026-11-17T02:06:34.387020",
+    "total_rows": 246091,
+    "total_columns": 15,
+    "column_names": [
+      "state_name",
+      "district_name",
+      "crop_year",
+      "season",
+      "crop_name",
+      "area_hectares",
+      "production",
+      "is_production_missing",
+      "production_unit",
+      "area_unit",
+      "production_tonnes",
+      "production_coconut_nuts",
+      "yield_tonnes_per_hectare",
+      "yield_coconut_nuts_per_hectare",
+      "is_incomplete_year"
+    ],
+    "data_types": {
+      "state_name": "object",
+      "district_name": "object",
+      "crop_year": "int64",
+      "season": "object",
+      "crop_name": "object",
+      "area_hectares": "float64",
+      "production": "float64",
+      "is_production_missing": "bool",
+      "production_unit": "object",
+      "area_unit": "object",
+      "production_tonnes": "float64",
+      "production_coconut_nuts": "float64",
+      "yield_tonnes_per_hectare": "float64",
+      "yield_coconut_nuts_per_hectare": "float64",
+      "is_incomplete_year": "bool"
+    },
+    "missing_values_count": {
+      "state_name": 0,
+      "district_name": 0,
+      "crop_year": 0,
+      "season": 0,
+      "crop_name": 0,
+      "area_hectares": 0,
+      "production": 3730,
+      "is_production_missing": 0,
+      "production_unit": 0,
+      "area_unit": 0,
+      "production_tonnes": 5688,
+      "production_coconut_nuts": 244133,
+      "yield_tonnes_per_hectare": 5688,
+      "yield_coconut_nuts_per_hectare": 244133,
+      "is_incomplete_year": 0
+    },
+    "missing_values_pct": {
+      "state_name": 0.0,
+      "district_name": 0.0,
+      "crop_year": 0.0,
+      "season": 0.0,
+      "crop_name": 0.0,
+      "area_hectares": 0.0,
+      "production": 1.516,
+      "is_production_missing": 0.0,
+      "production_unit": 0.0,
+      "area_unit": 0.0,
+      "production_tonnes": 2.311,
+      "production_coconut_nuts": 99.204,
+      "yield_tonnes_per_hectare": 2.311,
+      "yield_coconut_nuts_per_hectare": 99.204,
+      "is_incomplete_year": 0.0
+    },
+    "exact_duplicates": 0,
+    "business_key_duplicates": 0,
+    "date_range": null,
+    "state_summary": {
+      "unique_state_count": 33,
+      "states": [
+        "Andaman and Nicobar Islands",
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chandigarh",
+        "Chhattisgarh",
+        "Dadra and Nagar Haveli",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jammu and Kashmir",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Puducherry",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+      ]
+    },
+    "item_summary": {
+      "unique_item_count": 124,
+      "top_10_frequencies": {
+        "Rice": 15104,
+        "Maize": 13947,
+        "Moong(Green Gram)": 10318,
+        "Urad": 9850,
+        "Sesamum": 9046,
+        "Groundnut": 8834,
+        "Sugarcane": 7921,
+        "Wheat": 7899,
+        "Rapeseed &Mustard": 7592,
+        "Arhar/Tur": 7578
+      }
+    },
+    "geo_summary": null,
+    "numeric_summary": {
+      "crop_year": {
+        "count": 246091,
+        "min": 1997.0,
+        "p25": 2002.0,
+        "median": 2006.0,
+        "p75": 2010.0,
+        "max": 2015.0,
+        "mean": 2005.6430182330926,
+        "std": 4.952163852561266,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "area_hectares": {
+        "count": 246091,
+        "min": 0.04,
+        "p25": 80.0,
+        "median": 582.0,
+        "p75": 4392.0,
+        "max": 8580100.0,
+        "mean": 12002.82086370489,
+        "std": 50523.404018913716,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "production": {
+        "count": 242361,
+        "min": 0.0,
+        "p25": 88.0,
+        "median": 729.0,
+        "p75": 7023.0,
+        "max": 1250800000.0,
+        "mean": 582503.442250981,
+        "std": 17065813.172410317,
+        "zero_count": 3523,
+        "negative_count": 0
+      },
+      "production_tonnes": {
+        "count": 240403,
+        "min": 0.0,
+        "p25": 86.0,
+        "median": 705.0,
+        "p75": 6730.0,
+        "max": 37158000.0,
+        "mean": 46565.50688260962,
+        "std": 400847.4366733328,
+        "zero_count": 3522,
+        "negative_count": 0
+      },
+      "production_coconut_nuts": {
+        "count": 1958,
+        "min": 0.0,
+        "p25": 10463.1,
+        "median": 239156.5,
+        "p75": 11695680.0,
+        "max": 1250800000.0,
+        "mean": 66384897.45469356,
+        "std": 177991513.67327213,
+        "zero_count": 1,
+        "negative_count": 0
+      },
+      "yield_tonnes_per_hectare": {
+        "count": 240403,
+        "min": 0.0,
+        "p25": 0.5102040816326531,
+        "median": 1.0,
+        "p75": 2.291429762024741,
+        "max": 88000.0,
+        "mean": 9.080574888704355,
+        "std": 568.8362962606606,
+        "zero_count": 3522,
+        "negative_count": 0
+      },
+      "yield_coconut_nuts_per_hectare": {
+        "count": 1958,
+        "min": 0.0,
+        "p25": 6.769927495582419,
+        "median": 43.120000000000005,
+        "p75": 7530.625698795435,
+        "max": 38800.0,
+        "mean": 4040.4035677449733,
+        "std": 5186.755656725347,
+        "zero_count": 1,
+        "negative_count": 0
+      }
+    }
+  }
+}

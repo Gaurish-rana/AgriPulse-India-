@@ -1,0 +1,127 @@
+{
+  "dataset_name": "nasa_power_weather",
+  "report_generated_at": "2026-11-17T02:06:52.675002",
+  "summary": {
+    "total_raw_csv_files": 784,
+    "total_raw_rows_input": 16177280,
+    "total_consolidated_output_rows": 7121520,
+    "boundary_duplicates_dropped": 1934240,
+    "missing_markers_converted_to_null": 11340,
+    "negative_temperatures_preserved": 854937,
+    "himalayan_subzero_records": 744486,
+    "extreme_precipitation_records": 949
+  },
+  "geographical_extent": {
+    "min_latitude": 6.5,
+    "max_latitude": 37.5,
+    "min_longitude": 68.125,
+    "max_longitude": 95.625,
+    "grid_resolution": "0.5 deg lat x 0.625 deg lon (MERRA-2)",
+    "coverage_region": "All India subcontinent (6.5°N - 37.5°N, 68.125°E - 95.625°E)"
+  },
+  "year_by_year_breakdown": {
+    "2020": {
+      "processed_rows": 1037610,
+      "raw_input_rows": 2357040,
+      "boundary_duplicates_dropped": 281820,
+      "missing_precipitation_converted": 0,
+      "missing_temperature_converted": 0,
+      "negative_temperatures_preserved": 133033,
+      "himalayan_subzero_records": 115601,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2020\\part-0.parquet"
+    },
+    "2021": {
+      "processed_rows": 1034775,
+      "raw_input_rows": 2350600,
+      "boundary_duplicates_dropped": 281050,
+      "missing_precipitation_converted": 0,
+      "missing_temperature_converted": 0,
+      "negative_temperatures_preserved": 126335,
+      "himalayan_subzero_records": 109992,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2021\\part-0.parquet"
+    },
+    "2022": {
+      "processed_rows": 1034775,
+      "raw_input_rows": 2350600,
+      "boundary_duplicates_dropped": 281050,
+      "missing_precipitation_converted": 0,
+      "missing_temperature_converted": 0,
+      "negative_temperatures_preserved": 122120,
+      "himalayan_subzero_records": 106234,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2022\\part-0.parquet"
+    },
+    "2023": {
+      "processed_rows": 1034775,
+      "raw_input_rows": 2350600,
+      "boundary_duplicates_dropped": 281050,
+      "missing_precipitation_converted": 0,
+      "missing_temperature_converted": 0,
+      "negative_temperatures_preserved": 129738,
+      "himalayan_subzero_records": 112462,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2023\\part-0.parquet"
+    },
+    "2024": {
+      "processed_rows": 1037610,
+      "raw_input_rows": 2357040,
+      "boundary_duplicates_dropped": 281820,
+      "missing_precipitation_converted": 0,
+      "missing_temperature_converted": 0,
+      "negative_temperatures_preserved": 122949,
+      "himalayan_subzero_records": 106871,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2024\\part-0.parquet"
+    },
+    "2025": {
+      "processed_rows": 1034775,
+      "raw_input_rows": 2350600,
+      "boundary_duplicates_dropped": 281050,
+      "missing_precipitation_converted": 0,
+      "missing_temperature_converted": 0,
+      "negative_temperatures_preserved": 122734,
+      "himalayan_subzero_records": 107358,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2025\\part-0.parquet"
+    },
+    "2026": {
+      "processed_rows": 907200,
+      "raw_input_rows": 2060800,
+      "boundary_duplicates_dropped": 246400,
+      "missing_precipitation_converted": 5670,
+      "missing_temperature_converted": 5670,
+      "negative_temperatures_preserved": 98028,
+      "himalayan_subzero_records": 85968,
+      "parquet_file": "data\\processed\\nasa_weather_clean\\year=2026\\part-0.parquet"
+    }
+  },
+  "cleaning_decisions_and_traceability": [
+    {
+      "step": "tile_boundary_overlap_resolution",
+      "action": "Investigated tile overlap: adjacent North/South tiles share boundary latitude values (e.g. 10.5, 14.5, 18.5, 22.5, 26.5, 30.5, 34.5) with identical readings. Deduplicated on (LAT, LON, YEAR, DOY).",
+      "total_boundary_duplicates_dropped": 1934240
+    },
+    {
+      "step": "missing_marker_conversion",
+      "action": "Converted -999 missing source data markers to null (NaN). Added is_missing_precipitation and is_missing_temperature flags.",
+      "missing_precip_markers_converted": 5670,
+      "missing_temp_markers_converted": 5670
+    },
+    {
+      "step": "temperature_validation_and_preservation",
+      "action": "Preserved legitimate negative temperatures in Himalayan/Ladakh grid cells (lat >= 30.5°). Created is_negative_temperature and is_subzero_high_altitude flags.",
+      "negative_temperatures_preserved": 854937,
+      "himalayan_subzero_records": 744486
+    },
+    {
+      "step": "consolidation_and_parquet_partitioning",
+      "action": "Merged precipitation and temperature onto unified daily grid observations. Partitioned by year using Snappy-compressed Parquet. Avoided full memory load.",
+      "partitions_created": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "total_consolidated_rows": 7121520
+    }
+  ]
+}

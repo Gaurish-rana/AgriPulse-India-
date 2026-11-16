@@ -1,0 +1,383 @@
+{
+  "dataset_name": "mandi_prices",
+  "report_generated_at": "2026-11-17T02:06:31.676350",
+  "summary": {
+    "rows_raw_input": 12726,
+    "rows_processed_output": 12726,
+    "net_row_change": 0,
+    "columns_before": 10,
+    "columns_after": 15
+  },
+  "cleaning_decisions_and_traceability": [
+    {
+      "step": "column_standardization",
+      "action": "Renamed raw columns to snake_case with explicit unit suffixes (INR/quintal).",
+      "affected_columns": [
+        "state_name",
+        "district_name",
+        "market_name",
+        "commodity_name",
+        "variety_name",
+        "grade",
+        "arrival_date",
+        "min_price_inr_quintal",
+        "max_price_inr_quintal",
+        "modal_price_inr_quintal"
+      ],
+      "records_affected": 12726
+    },
+    {
+      "step": "text_whitespace_stripping",
+      "action": "Trimmed leading/trailing whitespace and normalized internal repeated spaces.",
+      "affected_columns": [
+        "state_name",
+        "district_name",
+        "market_name",
+        "commodity_name",
+        "variety_name",
+        "grade"
+      ],
+      "records_affected": 12726
+    },
+    {
+      "step": "state_name_standardization",
+      "action": "Normalized state names against official Government of India standards using state_name_mapping.csv.",
+      "states_mapped": [
+        "Keralam",
+        "Chattisgarh",
+        "Pondicherry"
+      ],
+      "records_affected": 1300
+    },
+    {
+      "step": "date_standardization",
+      "action": "Converted arrival_date from DD/MM/YYYY to ISO 8601 YYYY-MM-DD format.",
+      "unparseable_dates_found": 0,
+      "records_affected": 12726
+    },
+    {
+      "step": "price_validation",
+      "action": "Verified numeric types and validated min <= modal <= max constraint. Flagged in is_price_relation_valid.",
+      "invalid_price_logic_records": 0,
+      "non_positive_price_records": 0,
+      "records_retained": 12726
+    },
+    {
+      "step": "deduplication",
+      "action": "Verified zero exact and zero business key duplicates.",
+      "duplicates_removed": 0
+    }
+  ],
+  "before_quality_profile": {
+    "dataset_name": "mandi_prices",
+    "stage": "raw",
+    "timestamp": "2026-11-17T02:06:31.539686",
+    "total_rows": 12726,
+    "total_columns": 10,
+    "column_names": [
+      "state",
+      "district",
+      "market",
+      "commodity",
+      "variety",
+      "grade",
+      "arrival_date",
+      "min_price",
+      "max_price",
+      "modal_price"
+    ],
+    "data_types": {
+      "state": "object",
+      "district": "object",
+      "market": "object",
+      "commodity": "object",
+      "variety": "object",
+      "grade": "object",
+      "arrival_date": "object",
+      "min_price": "float64",
+      "max_price": "float64",
+      "modal_price": "float64"
+    },
+    "missing_values_count": {
+      "state": 0,
+      "district": 0,
+      "market": 0,
+      "commodity": 0,
+      "variety": 0,
+      "grade": 0,
+      "arrival_date": 0,
+      "min_price": 0,
+      "max_price": 0,
+      "modal_price": 0
+    },
+    "missing_values_pct": {
+      "state": 0.0,
+      "district": 0.0,
+      "market": 0.0,
+      "commodity": 0.0,
+      "variety": 0.0,
+      "grade": 0.0,
+      "arrival_date": 0.0,
+      "min_price": 0.0,
+      "max_price": 0.0,
+      "modal_price": 0.0
+    },
+    "exact_duplicates": 0,
+    "business_key_duplicates": 0,
+    "date_range": {
+      "min_date": "2026-11-16",
+      "max_date": "2026-11-16",
+      "unparseable_date_count": 0
+    },
+    "state_summary": {
+      "unique_state_count": 25,
+      "states": [
+        "Andhra Pradesh",
+        "Assam",
+        "Bihar",
+        "Chattisgarh",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jammu and Kashmir",
+        "Karnataka",
+        "Keralam",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Meghalaya",
+        "Nagaland",
+        "Odisha",
+        "Pondicherry",
+        "Punjab",
+        "Rajasthan",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+      ]
+    },
+    "item_summary": {
+      "unique_item_count": 253,
+      "top_10_frequencies": {
+        "Paddy(Common)": 501,
+        "Wheat": 478,
+        "Onion": 459,
+        "Maize": 432,
+        "Tomato": 430,
+        "Brinjal": 420,
+        "Potato": 390,
+        "Soyabean": 341,
+        "Green Chilli": 330,
+        "Cauliflower": 330
+      }
+    },
+    "geo_summary": null,
+    "numeric_summary": {
+      "min_price": {
+        "count": 12726,
+        "min": 0.01,
+        "p25": 2000.0,
+        "median": 3400.0,
+        "p75": 5800.0,
+        "max": 149000.0,
+        "mean": 4674.134176764734,
+        "std": 6038.164577430235,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "max_price": {
+        "count": 12726,
+        "min": 0.01,
+        "p25": 2600.0,
+        "median": 4000.0,
+        "p75": 7000.0,
+        "max": 161000.0,
+        "mean": 5733.6191446548,
+        "std": 7152.660796620066,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "modal_price": {
+        "count": 12726,
+        "min": 0.01,
+        "p25": 2500.0,
+        "median": 3800.0,
+        "p75": 6500.0,
+        "max": 149000.0,
+        "mean": 5265.966359725523,
+        "std": 6465.110691591812,
+        "zero_count": 0,
+        "negative_count": 0
+      }
+    }
+  },
+  "after_quality_profile": {
+    "dataset_name": "mandi_prices",
+    "stage": "processed_clean",
+    "timestamp": "2026-11-17T02:06:31.676350",
+    "total_rows": 12726,
+    "total_columns": 15,
+    "column_names": [
+      "state_name",
+      "district_name",
+      "market_name",
+      "commodity_name",
+      "variety_name",
+      "grade",
+      "arrival_date",
+      "min_price_inr_quintal",
+      "max_price_inr_quintal",
+      "modal_price_inr_quintal",
+      "arrival_year",
+      "arrival_month",
+      "is_price_relation_valid",
+      "currency",
+      "price_unit"
+    ],
+    "data_types": {
+      "state_name": "object",
+      "district_name": "object",
+      "market_name": "object",
+      "commodity_name": "object",
+      "variety_name": "object",
+      "grade": "object",
+      "arrival_date": "object",
+      "min_price_inr_quintal": "float64",
+      "max_price_inr_quintal": "float64",
+      "modal_price_inr_quintal": "float64",
+      "arrival_year": "int32",
+      "arrival_month": "int32",
+      "is_price_relation_valid": "bool",
+      "currency": "object",
+      "price_unit": "object"
+    },
+    "missing_values_count": {
+      "state_name": 0,
+      "district_name": 0,
+      "market_name": 0,
+      "commodity_name": 0,
+      "variety_name": 0,
+      "grade": 0,
+      "arrival_date": 0,
+      "min_price_inr_quintal": 0,
+      "max_price_inr_quintal": 0,
+      "modal_price_inr_quintal": 0,
+      "arrival_year": 0,
+      "arrival_month": 0,
+      "is_price_relation_valid": 0,
+      "currency": 0,
+      "price_unit": 0
+    },
+    "missing_values_pct": {
+      "state_name": 0.0,
+      "district_name": 0.0,
+      "market_name": 0.0,
+      "commodity_name": 0.0,
+      "variety_name": 0.0,
+      "grade": 0.0,
+      "arrival_date": 0.0,
+      "min_price_inr_quintal": 0.0,
+      "max_price_inr_quintal": 0.0,
+      "modal_price_inr_quintal": 0.0,
+      "arrival_year": 0.0,
+      "arrival_month": 0.0,
+      "is_price_relation_valid": 0.0,
+      "currency": 0.0,
+      "price_unit": 0.0
+    },
+    "exact_duplicates": 0,
+    "business_key_duplicates": 0,
+    "date_range": {
+      "min_date": "2026-11-16",
+      "max_date": "2026-11-16",
+      "unparseable_date_count": 0
+    },
+    "state_summary": {
+      "unique_state_count": 25,
+      "states": [
+        "Andhra Pradesh",
+        "Assam",
+        "Bihar",
+        "Chhattisgarh",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jammu and Kashmir",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Meghalaya",
+        "Nagaland",
+        "Odisha",
+        "Puducherry",
+        "Punjab",
+        "Rajasthan",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+      ]
+    },
+    "item_summary": {
+      "unique_item_count": 253,
+      "top_10_frequencies": {
+        "Paddy(Common)": 501,
+        "Wheat": 478,
+        "Onion": 459,
+        "Maize": 432,
+        "Tomato": 430,
+        "Brinjal": 420,
+        "Potato": 390,
+        "Soyabean": 341,
+        "Green Chilli": 330,
+        "Cauliflower": 330
+      }
+    },
+    "geo_summary": null,
+    "numeric_summary": {
+      "min_price_inr_quintal": {
+        "count": 12726,
+        "min": 0.01,
+        "p25": 2000.0,
+        "median": 3400.0,
+        "p75": 5800.0,
+        "max": 149000.0,
+        "mean": 4674.134176764734,
+        "std": 6038.164577430235,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "max_price_inr_quintal": {
+        "count": 12726,
+        "min": 0.01,
+        "p25": 2600.0,
+        "median": 4000.0,
+        "p75": 7000.0,
+        "max": 161000.0,
+        "mean": 5733.6191446548,
+        "std": 7152.660796620066,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      "modal_price_inr_quintal": {
+        "count": 12726,
+        "min": 0.01,
+        "p25": 2500.0,
+        "median": 3800.0,
+        "p75": 6500.0,
+        "max": 149000.0,
+        "mean": 5265.966359725523,
+        "std": 6465.110691591812,
+        "zero_count": 0,
+        "negative_count": 0
+      }
+    }
+  }
+}

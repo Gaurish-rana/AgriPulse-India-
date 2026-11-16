@@ -1,0 +1,18 @@
+# Core data
+pandas==2.2.2
+numpy==1.26.4
+requests==2.32.3
+python-dotenv==1.0.1
+tqdm==4.66.4
+
+# Jupyter (optional – for notebooks/)
+jupyterlab==4.2.3
+
+# Phase 2 – Streaming & Processing
+confluent-kafka==2.11.0
+pyspark==3.5.1
+pyarrow==20.0.0
+
+# Future Phases (Phase 3 & 4)
+# snowflake-connector-python==3.10.1
+# apache-airflow==2.9.2

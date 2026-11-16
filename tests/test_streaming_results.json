@@ -1,0 +1,12 @@
+{
+  "step_1_kafka_running": "SKIPPED_BROKER_OFFLINE",
+  "step_2_topics_exist": "CONFIG_VALIDATED",
+  "step_3_producer_metadata": "PASSED",
+  "step_4_payload_structure": "PASSED",
+  "step_5_json_serialization": "PASSED",
+  "step_6_spark_read": "PASSED",
+  "step_7_clean_routing": "PASSED",
+  "step_8_invalid_routing": "PASSED",
+  "step_9_deduplication": "PASSED",
+  "step_10_checkpoint_recovery": "PASSED"
+}
