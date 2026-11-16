@@ -260,7 +260,8 @@ AgriPulse India uses **Apache Airflow** (LocalExecutor with PostgreSQL backend r
 
 ### Airflow Web Interface & Access
 - **Web UI URL**: [http://localhost:8080](http://localhost:8080)
-- **Default Credentials**: `admin` / `admin`
+- **Primary Administrator**: `agripulse_admin` (generic `admin` account removed for security)
+- **Password**: `AgriPulse#2026!Secure` (configurable via `AIRFLOW_ADMIN_PASSWORD` in `.env`)
 - **Container Architecture**:
   - `agripulse-airflow-webserver`: Airflow UI service exposed on host port 8080.
   - `agripulse-airflow-scheduler`: Airflow job scheduler and task monitor.

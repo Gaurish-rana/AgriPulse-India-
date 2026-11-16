@@ -57,12 +57,12 @@ services:
       - |
         airflow db migrate && \
         airflow users create \
-          --username admin \
-          --password admin \
+          --username "${AIRFLOW_ADMIN_USERNAME:-agripulse_admin}" \
+          --password "${AIRFLOW_ADMIN_PASSWORD:-AgriPulse#2026!Secure}" \
           --firstname AgriPulse \
           --lastname Admin \
           --role Admin \
-          --email admin@agripulse.local || true
+          --email "${AIRFLOW_ADMIN_EMAIL:-security@agripulse.local}" || true
     depends_on:
       postgres:
         condition: service_healthy

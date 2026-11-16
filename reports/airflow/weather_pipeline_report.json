@@ -1,8 +1,8 @@
 {
   "pipeline": "weather_pipeline",
-  "executed_at_utc": "2026-11-16T22:35:50.045857+00:00",
+  "executed_at_utc": "2026-11-16T22:41:34.834408+00:00",
   "incremental_action": "SKIPPED",
-  "tiles_inspected": 784,
+  "tiles_inspected": 0,
   "new_tiles_processed": 0,
   "warehouse_status": {
     "total_warehouse_rows": 7121520,
