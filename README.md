@@ -205,9 +205,36 @@ Processed batch data is saved in Snappy Parquet:
 
 ---
 
-## 6. Next Steps (Phase 3 Roadmap)
+## 6. Phase 3: Snowflake Cloud Data Warehouse Integration
 
-- **Kafka Connect**: Configure Snowflake Sink Connector for `mandi-prices-clean`.
-- **Snowflake Cloud Data Warehouse**: Implement DDL tables, external stages, and snowpipes.
-- **Apache Airflow**: Orchestrate daily batch jobs and monitor Kafka streaming pipelines.
-- **Power BI**: Build dimensional data models and interactive analytics dashboards.
+The platform integrates all cleaned batch and streaming data into **Snowflake (`AGRIPULSE_DB`)**:
+
+### Database Architecture
+- **RAW Schema**: Ingestion staging tables (`RAW_MANDI_PRICES`, `RAW_CROP_PRODUCTION`, `RAW_WEATHER`) and `LOAD_AUDIT`.
+- **CLEAN Schema**: Conformed tables with primary business keys (`CLEAN_MANDI_PRICES`, `CLEAN_CROP_PRODUCTION`, `CLEAN_WEATHER`).
+- **MART Schema (Star Schema)**:
+  - Dimensions: `DIM_DATE` (1995–2035), `DIM_LOCATION` (States, Districts, APMCs), `DIM_COMMODITY`.
+  - Facts: `FACT_MANDI_PRICES`, `FACT_CROP_PRODUCTION` (preserving Coconut Nuts vs Crop Tonnes), `FACT_WEATHER` (preserving sub-zero temps).
+
+### Execution Commands
+```bash
+# 1. Test Snowflake Connection
+python -m snowflake.connection
+
+# 2. Batch Ingest Parquet into Snowflake
+python -m snowflake.batch_loader --sample       # Sample test
+python -m snowflake.batch_loader --dataset all  # Complete load
+
+# 3. Stream Kafka Mandi Clean into Snowflake
+python -m snowflake.kafka_connect.snowflake_stream_consumer --batch-size 50
+
+# 4. Run Warehouse Validation & Reconciliation
+python -m snowflake.validation
+```
+
+---
+
+## 7. Next Steps (Phase 4 Roadmap)
+
+- **Apache Airflow**: Orchestrate daily batch jobs, sensor checks, and pipeline monitoring.
+- **Power BI / Analytics**: Connect DirectQuery/Import to Snowflake MART models for dashboard reporting.

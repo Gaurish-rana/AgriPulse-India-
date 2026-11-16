@@ -13,6 +13,6 @@ confluent-kafka==2.11.0
 pyspark==3.5.1
 pyarrow==20.0.0
 
-# Future Phases (Phase 3 & 4)
-# snowflake-connector-python==3.10.1
+# Phase 3 – Snowflake Data Warehouse
+snowflake-connector-python>=3.10.0
 # apache-airflow==2.9.2

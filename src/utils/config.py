@@ -37,3 +37,13 @@ class PathConfig:
     INTERIM_DIR: str = os.path.join("data", "interim")
     PROCESSED_DIR: str = os.path.join("data", "processed")
     LOG_DIR: str = os.getenv("LOG_DIR", "logs")
+
+
+class SnowflakeConfig:
+    ACCOUNT: str = os.getenv("SNOWFLAKE_ACCOUNT", "")
+    USER: str = os.getenv("SNOWFLAKE_USER", "")
+    PASSWORD: str = os.getenv("SNOWFLAKE_PASSWORD", "")
+    DATABASE: str = os.getenv("SNOWFLAKE_DATABASE", "AGRIPULSE_DB")
+    SCHEMA: str = os.getenv("SNOWFLAKE_SCHEMA", "CLEAN")
+    WAREHOUSE: str = os.getenv("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
+    ROLE: str = os.getenv("SNOWFLAKE_ROLE", "ACCOUNTADMIN")
