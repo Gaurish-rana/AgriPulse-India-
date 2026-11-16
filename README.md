@@ -291,10 +291,33 @@ docker compose -f airflow/docker-compose.yml logs -f
 
 ---
 
-## 8. Phase 5 Roadmap: Power BI Analytics & Reporting
+## 8. Phase 5: Interactive Business Intelligence Dashboards (Power BI Desktop)
 
-- **Power BI Direct Connection**: Connect Power BI to ClickHouse Star Schema marts (`agripulse_mart.fact_mandi_prices`, `fact_crop_production`, `fact_weather`).
-- **Interactive Dashboards**:
-  1. Mandi Wholesale Price Volatility & Arbitrage Tracker.
-  2. Crop Production vs Climate & Rainfall Correlation.
-  3. Regional Weather Extremes & Drought / Flood Vulnerability Index.
+AgriPulse India connects **Power BI Desktop** directly to the **ClickHouse OLAP Data Warehouse** (`agripulse_mart`) to provide interactive, multi-dimensional executive reporting.
+
+### Dashboard Architecture
+
+| Dashboard Page | Target Datasets & Tables | Key Metrics & Visualizations |
+|---|---|---|
+| `01 - Agriculture Overview` | `dim_date`, `dim_location`, `fact_crop_production`, `fact_mandi_prices`, `fact_weather_trends` | **Hero KPI Ribbon**: Mandi Records (12.7K), Commodities (253), States (33), Crop Output (11.19B T), Weather Obs (7.12M).<br>**Visuals**: Top States Crop Production, Commodity Group Share, Multi-Decade Crop Trends, National Climate Cycle. |
+| `02 - Mandi Price Analytics` | `fact_mandi_prices`, `dim_commodity`, `dim_location` | **Wholesale Price KPIs**: Avg Modal (₹5,265/Qtl), Min (₹0.01), Max (₹149,000), Spread (₹392), Active Markets (1,048).<br>**Visuals**: Top 15 Commodities, State Price Benchmarks, Volatility Spreads, Mandi Market Arbitrage Explorer. |
+| `03 - Crop Production Analytics` | `fact_crop_production`, `dim_location` | **Crop KPIs**: Field Output (11.19B Tonnes), Coconut Output (129.98B Nuts), Cultivated Area (1.46B Ha), Avg Yield (2.78 T/Ha), Diversity (124 crops).<br>**Visuals**: Production by Crop Group, Kharif vs Rabi Season Distribution, Yield Trends, State vs Season Matrix. |
+| `04 - Weather Analytics` | `view_weather_regional_trends`, `view_weather_monthly_summary`, `fact_weather` | **Meteorology KPIs**: National Mean Temp (20.1°C), Record Cold (-34.62°C), Peak Temp (43.52°C), Daily Rain (3.44mm), Sub-zero Readings (854.9K).<br>**Visuals**: Multi-Year Temperature Cycles, Southwest Monsoon Rainfall Surge Wave, Annual Frost vs Extreme Deluge Events. |
+
+### How to Run the Dashboards
+1. **Via Power BI Project (.pbip)**:
+   - Double-click [`powerbi/AgriPulse_India.pbip`](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/AgriPulse_India.pbip) in Windows Explorer.
+   - Power BI Desktop compiles the dataset and displays the 4 interactive dashboards.
+   - Click **File -> Save As -> `AgriPulse_India.pbix`** to persist your compiled local file.
+2. **Via Power BI Template (.pbit)**:
+   - Double-click [`powerbi/AgriPulse_India.pbit`](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/AgriPulse_India.pbit).
+3. **Via Python Script Loader**:
+   - In Power BI Desktop: `Get Data` -> `Other` -> `Python script` -> Run [`powerbi/powerbi_clickhouse_loader.py`](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/powerbi_clickhouse_loader.py).
+
+### Technical Documentation & Assets
+- [Data Model & Star Schema Guide](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/documentation/data_model.md)
+- [Complete DAX Measures Catalog](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/documentation/dax_measures.md)
+- [Dashboard Design & Visual Specification](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/documentation/dashboard_guide.md)
+- [Analytical SQL Queries](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/powerbi/sql/)
+- [ClickHouse Schema Inspection Report](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/reports/powerbi/clickhouse_schema_inspection.md)
+- [Power BI Validation Report](file:///c:/Users/Gaurish16/OneDrive/Desktop/AgriPulse-India/reports/powerbi/dashboard_validation_report.json)

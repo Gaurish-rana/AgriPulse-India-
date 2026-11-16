@@ -1,0 +1,1173 @@
+{
+  "agripulse_raw": {
+    "load_audit": {
+      "engine": "MergeTree",
+      "partition_key": "",
+      "sorting_key": "load_start_time, target_table",
+      "primary_key": "load_start_time, target_table",
+      "row_count": 12,
+      "columns": [
+        {
+          "name": "load_id",
+          "type": "UUID",
+          "comment": ""
+        },
+        {
+          "name": "pipeline_stage",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "target_table",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "file_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "file_row_count",
+          "type": "UInt64",
+          "comment": ""
+        },
+        {
+          "name": "rows_inserted",
+          "type": "UInt64",
+          "comment": ""
+        },
+        {
+          "name": "load_status",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "load_start_time",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        },
+        {
+          "name": "load_end_time",
+          "type": "Nullable(DateTime64(3, 'UTC'))",
+          "comment": ""
+        },
+        {
+          "name": "error_message",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "loaded_by",
+          "type": "String",
+          "comment": ""
+        }
+      ]
+    },
+    "raw_crop_production": {
+      "engine": "MergeTree",
+      "partition_key": "",
+      "sorting_key": "ingested_at_utc, raw_id",
+      "primary_key": "ingested_at_utc, raw_id",
+      "row_count": 0,
+      "columns": [
+        {
+          "name": "raw_id",
+          "type": "UUID",
+          "comment": ""
+        },
+        {
+          "name": "state_name",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "crop_year",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "season",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "crop",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "area",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "production",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "source_file",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "ingested_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "raw_mandi_prices": {
+      "engine": "MergeTree",
+      "partition_key": "",
+      "sorting_key": "ingested_at_utc, raw_id",
+      "primary_key": "ingested_at_utc, raw_id",
+      "row_count": 0,
+      "columns": [
+        {
+          "name": "raw_id",
+          "type": "UUID",
+          "comment": ""
+        },
+        {
+          "name": "state",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "district",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "market",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "commodity",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "variety",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "grade",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "arrival_date",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "min_price",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "max_price",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "modal_price",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "raw_payload",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "source_channel",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "source_file",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "ingested_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "raw_weather": {
+      "engine": "MergeTree",
+      "partition_key": "",
+      "sorting_key": "ingested_at_utc, raw_id",
+      "primary_key": "ingested_at_utc, raw_id",
+      "row_count": 0,
+      "columns": [
+        {
+          "name": "raw_id",
+          "type": "UUID",
+          "comment": ""
+        },
+        {
+          "name": "observation_date",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "year",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "month",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "day",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "latitude",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "longitude",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "prectotcorr",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "t2m",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "source_tile_file",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "ingested_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    }
+  },
+  "agripulse_clean": {
+    "clean_crop_production": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "",
+      "sorting_key": "state_name, district_name, crop_year, season, crop_name",
+      "primary_key": "state_name, district_name, crop_year, season, crop_name",
+      "row_count": 246091,
+      "columns": [
+        {
+          "name": "state_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "crop_year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "season",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "crop_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "area_hectares",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "production",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "is_production_missing",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "production_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "area_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "production_tonnes",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "production_coconut_nuts",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "yield_tonnes_per_hectare",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "yield_coconut_nuts_per_hectare",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "is_incomplete_year",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "clean_mandi_prices": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "toYYYYMM(arrival_date)",
+      "sorting_key": "state_name, district_name, market_name, commodity_name, variety_name, grade, arrival_date",
+      "primary_key": "state_name, district_name, market_name, commodity_name, variety_name, grade, arrival_date",
+      "row_count": 12727,
+      "columns": [
+        {
+          "name": "state_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "market_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "commodity_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "variety_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "grade",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "arrival_date",
+          "type": "Date32",
+          "comment": ""
+        },
+        {
+          "name": "min_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "max_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "modal_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "arrival_year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "arrival_month",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_price_relation_valid",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "currency",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "price_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "record_hash",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "source_channel",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "clean_weather": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "year",
+      "sorting_key": "latitude, longitude, date",
+      "primary_key": "latitude, longitude, date",
+      "row_count": 7121520,
+      "columns": [
+        {
+          "name": "date",
+          "type": "Date32",
+          "comment": ""
+        },
+        {
+          "name": "year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "month",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "day",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "day_of_year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "latitude",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "longitude",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "precipitation_mm_per_day",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "temperature_celsius_2m",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "precipitation_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "temperature_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "is_missing_precipitation",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_missing_temperature",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_negative_temperature",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_subzero_high_altitude",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_extreme_precipitation",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "kafka_mandi_prices_queue": {
+      "engine": "Kafka",
+      "partition_key": "",
+      "sorting_key": "",
+      "primary_key": "",
+      "row_count": null,
+      "columns": [
+        {
+          "name": "state_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "market_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "commodity_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "variety_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "grade",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "arrival_date",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "min_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "max_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "modal_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "processed_at_utc",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "_message_id",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "_ingested_at_utc",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "_is_synthetic",
+          "type": "UInt8",
+          "comment": ""
+        }
+      ]
+    },
+    "mv_kafka_mandi_prices": {
+      "engine": "MaterializedView",
+      "partition_key": "",
+      "sorting_key": "",
+      "primary_key": "",
+      "row_count": null,
+      "columns": [
+        {
+          "name": "state_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "market_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "commodity_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "variety_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "grade",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "arrival_date",
+          "type": "Date32",
+          "comment": ""
+        },
+        {
+          "name": "min_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "max_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "modal_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "arrival_year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "arrival_month",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_price_relation_valid",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "currency",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "price_unit",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "record_hash",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "source_channel",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime",
+          "comment": ""
+        }
+      ]
+    }
+  },
+  "agripulse_mart": {
+    "dim_commodity": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "",
+      "sorting_key": "commodity_name, variety_name, grade",
+      "primary_key": "commodity_name, variety_name, grade",
+      "row_count": 2051,
+      "columns": [
+        {
+          "name": "commodity_key",
+          "type": "UUID",
+          "comment": ""
+        },
+        {
+          "name": "commodity_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "commodity_group",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "variety_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "grade",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "standard_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "created_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "dim_date": {
+      "engine": "MergeTree",
+      "partition_key": "",
+      "sorting_key": "date_key",
+      "primary_key": "date_key",
+      "row_count": 14975,
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "UInt32",
+          "comment": ""
+        },
+        {
+          "name": "full_date",
+          "type": "Date32",
+          "comment": ""
+        },
+        {
+          "name": "year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "month",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "month_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "day",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "day_of_year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "quarter",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "day_of_week",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "day_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "is_weekend",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "agricultural_year",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        }
+      ]
+    },
+    "dim_location": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "",
+      "sorting_key": "state_name, district_name, ifNull(market_name, '')",
+      "primary_key": "state_name, district_name, ifNull(market_name, '')",
+      "row_count": 2443,
+      "columns": [
+        {
+          "name": "location_key",
+          "type": "UUID",
+          "comment": ""
+        },
+        {
+          "name": "state_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "market_name",
+          "type": "Nullable(String)",
+          "comment": ""
+        },
+        {
+          "name": "location_type",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "latitude",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "longitude",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "region",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "created_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "fact_crop_production": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "",
+      "sorting_key": "crop_fact_key",
+      "primary_key": "crop_fact_key",
+      "row_count": 738273,
+      "columns": [
+        {
+          "name": "crop_fact_key",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "crop_year",
+          "type": "UInt16",
+          "comment": ""
+        },
+        {
+          "name": "state_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "crop_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "season",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "area_hectares",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "production",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "production_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "production_tonnes",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "production_coconut_nuts",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "yield_tonnes_per_hectare",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "yield_coconut_nuts_per_hectare",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "is_production_missing",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_incomplete_year",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "fact_mandi_prices": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "toYYYYMM(arrival_date)",
+      "sorting_key": "mandi_fact_key",
+      "primary_key": "mandi_fact_key",
+      "row_count": 38180,
+      "columns": [
+        {
+          "name": "mandi_fact_key",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "date_key",
+          "type": "UInt32",
+          "comment": ""
+        },
+        {
+          "name": "arrival_date",
+          "type": "Date32",
+          "comment": ""
+        },
+        {
+          "name": "state_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "district_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "market_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "commodity_name",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "variety_name",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "grade",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "min_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "max_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "modal_price_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "price_spread_inr_quintal",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "arrival_quantity_quintals",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "currency",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "price_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "is_price_relation_valid",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "source_channel",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    },
+    "fact_weather": {
+      "engine": "ReplacingMergeTree",
+      "partition_key": "toYear(weather_date)",
+      "sorting_key": "weather_fact_key",
+      "primary_key": "weather_fact_key",
+      "row_count": 21364560,
+      "columns": [
+        {
+          "name": "weather_fact_key",
+          "type": "String",
+          "comment": ""
+        },
+        {
+          "name": "date_key",
+          "type": "UInt32",
+          "comment": ""
+        },
+        {
+          "name": "weather_date",
+          "type": "Date32",
+          "comment": ""
+        },
+        {
+          "name": "latitude",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "longitude",
+          "type": "Float64",
+          "comment": ""
+        },
+        {
+          "name": "rainfall_mm_per_day",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "temperature_celsius",
+          "type": "Nullable(Float64)",
+          "comment": ""
+        },
+        {
+          "name": "is_negative_temperature",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_extreme_rainfall",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "is_subzero_high_altitude",
+          "type": "UInt8",
+          "comment": ""
+        },
+        {
+          "name": "rainfall_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "temperature_unit",
+          "type": "LowCardinality(String)",
+          "comment": ""
+        },
+        {
+          "name": "loaded_at_utc",
+          "type": "DateTime64(3, 'UTC')",
+          "comment": ""
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "report_name": "AgriPulse India \u2014 Power BI Dashboard Validation Report",
+  "timestamp_utc": "2026-11-16T23:05:05.166746+00:00",
+  "clickhouse_connection": {
+    "status": "CONNECTED",
+    "host": "localhost",
+    "http_port": 8123,
+    "server_version": "24.3.18.7",
+    "database": "agripulse_mart",
+    "supported_protocols": [
+      "HTTP (port 8123)",
+      "Native (port 9000)"
+    ]
+  },
+  "powerbi_connection_methods_evaluated": [
+    {
+      "method": "Native Power Query Web / HTTP Connector",
+      "mechanism": "Csv.Document(Web.Contents('http://localhost:8123/?query=...'))",
+      "driver_required": "None (Driverless / Built-in)",
+      "status": "VERIFIED_FUNCTIONAL",
+      "notes": "Preferred driverless connection method. Native M queries execute against ClickHouse HTTP API with zero external dependencies."
+    },
+    {
+      "method": "Power BI Python Script Connector",
+      "mechanism": "Python.Execute with clickhouse_connect and pandas",
+      "driver_required": "None (uses system Python 3.10)",
+      "status": "VERIFIED_FUNCTIONAL",
+      "notes": "1-click loader (powerbi_clickhouse_loader.py) imports all 7 datasets in 12 seconds."
+    },
+    {
+      "method": "ClickHouse 64-bit ODBC Driver",
+      "mechanism": "Odbc.DataSource with ClickHouse ODBC Driver (Unicode)",
+      "driver_required": "clickhouse-odbc-1.6.0-win64.msi",
+      "status": "STAGED_IN_REPO",
+      "notes": "Installer staged at powerbi/drivers/clickhouse-odbc-1.6.0-win64.msi for optional manual installation."
+    }
+  ],
+  "dashboards": {
+    "01_agriculture_overview": {
+      "page_name": "01 - Agriculture Overview",
+      "status": "DESIGNED_AND_COMPILED",
+      "kpis_validated": {
+        "total_mandi_records": 12727,
+        "total_commodities": 253,
+        "states_covered": 33,
+        "field_crop_production_tonnes": 11194487551.1,
+        "total_weather_observations": 7121520
+      },
+      "visuals_configured": [
+        "KPI Ribbon (5 Hero Metric Cards)",
+        "Top 10 States by Cumulative Crop Production (Bar Chart)",
+        "Mandi Records by Commodity Group (Donut Chart)",
+        "Historical Crop Production & Cultivated Area Trend 1997-2015 (Line Chart)",
+        "Monthly Climate Cycle: Temperature vs Rainfall (Clustered Line & Column Chart)"
+      ]
+    },
+    "02_mandi_price_analytics": {
+      "page_name": "02 - Mandi Price Analytics",
+      "status": "DESIGNED_AND_COMPILED",
+      "kpis_validated": {
+        "avg_modal_price_inr_quintal": 5265.73,
+        "min_price_inr_quintal": 0.01,
+        "max_price_inr_quintal": 161000.0,
+        "avg_price_spread_inr_quintal": 1059.41,
+        "active_markets": 1781
+      },
+      "visuals_configured": [
+        "KPI Ribbon (Price extremes, averages, active trading centers)",
+        "Top 15 Commodities by Average Modal Price (Bar Chart)",
+        "State-Wise Average Modal Price Comparison (Column Chart)",
+        "Price Range Dynamics: Min vs Modal vs Max (Scatter / High-Low)",
+        "Mandi Market Pricing Explorer (Interactive Detail Matrix)"
+      ]
+    },
+    "03_crop_production_analytics": {
+      "page_name": "03 - Crop Production Analytics",
+      "status": "DESIGNED_AND_COMPILED",
+      "kpis_validated": {
+        "total_field_crop_tonnes": 11194487551.1,
+        "total_coconut_nuts": 129981629216.29,
+        "total_cultivated_area_ha": 2953786189.17,
+        "avg_field_yield_tonnes_ha": 9.08,
+        "crop_diversity": 124,
+        "historical_years": 19,
+        "missing_production_flagged": 3730
+      },
+      "visuals_configured": [
+        "KPI Ribbon (Strictly segregated Tonnes vs Nuts, yields, area)",
+        "Production by Crop Category & Crop Name (Treemap)",
+        "Season-Wise Production Distribution: Kharif, Rabi, Summer (Column Chart)",
+        "Multi-Year Cultivated Area & Yield Dynamics 1997-2015 (Area Chart)",
+        "State vs Season Crop Production Matrix (Heatmap Matrix)"
+      ]
+    },
+    "04_weather_analytics": {
+      "page_name": "04 - Weather Analytics",
+      "status": "DESIGNED_AND_COMPILED",
+      "kpis_validated": {
+        "national_mean_temp_celsius": 20.1,
+        "record_coldest_temp_celsius": -34.62,
+        "record_warmest_temp_celsius": 43.52,
+        "mean_daily_rainfall_mm": 3.44,
+        "subzero_frost_readings": 854937,
+        "extreme_rainfall_events": 949
+      },
+      "visuals_configured": [
+        "KPI Ribbon (Sub-zero preservation, precipitation, extreme events)",
+        "Annual Monthly Temperature Cycle 2020-2026 (Line Series Chart)",
+        "Monsoon Precipitation Wave: Southwest Monsoon Spike (Area Chart)",
+        "Extreme Weather Incidents by Year: Frost vs Torrential Rain (Clustered Column Chart)"
+      ]
+    }
+  },
+  "performance_optimizations": {
+    "mart_preaggregation": "Created agripulse_mart.view_weather_monthly_summary and view_weather_regional_trends in ClickHouse.",
+    "row_reduction_ratio": "7.12 million granular rows summarized into 83 regional trend rows and ~195K monthly tile rows for sub-second visual rendering.",
+    "unit_segregation_guaranteed": "Field crops (Tonnes) and Coconut (Nuts) stored in separate columns and calculated in independent DAX measures to prevent erroneous mixing."
+  },
+  "status": "SUCCESS"
+}

@@ -1,0 +1,343 @@
+{
+  "config": "{\"version\": \"5.55\", \"themeCollection\": {\"baseTheme\": {\"name\": \"CY24SU10\", \"version\": \"5.55\", \"type\": 2}}, \"activeSectionIndex\": 0, \"defaultDrillFilterOtherVisuals\": true, \"settings\": {\"useNewFilterPaneExperience\": true, \"allowChangeFilterTypes\": true}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [],
+  "sections": [
+    {
+      "name": "Section_01_Overview",
+      "displayName": "01 - Agriculture Overview",
+      "filters": "[]",
+      "ordinal": 0,
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "z": 0,
+          "width": 1240,
+          "height": 60,
+          "config": "{\"name\": \"Header_Card\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 15, \"z\": 0, \"width\": 1240, \"height\": 60}}], \"singleVisual\": {\"visualType\": \"textbox\", \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"AgriPulse India \\u2014 Agricultural Big Data Analytics Platform (Executive Overview)\", \"textStyle\": {\"fontFamily\": \"Segoe UI Semibold\", \"fontSize\": \"18pt\", \"color\": \"#173F35\"}}]}]}}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "z": 1,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Mandi_Records\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total Mandi Records\"}]}}}"
+        },
+        {
+          "x": 270,
+          "y": 85,
+          "z": 2,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Commodities\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total Commodities Traded\"}]}}}"
+        },
+        {
+          "x": 520,
+          "y": 85,
+          "z": 3,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_States\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total States Covered\"}]}}}"
+        },
+        {
+          "x": 770,
+          "y": 85,
+          "z": 4,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Crop_Prod\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        },
+        {
+          "x": 1030,
+          "y": 85,
+          "z": 5,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Weather_Obs\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total Weather Observations\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 210,
+          "z": 6,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_State_Crop_Prod\", \"singleVisual\": {\"visualType\": \"barChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_crop_production.state_name\"}], \"Y\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        },
+        {
+          "x": 650,
+          "y": 210,
+          "z": 7,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_Commodity_Groups\", \"singleVisual\": {\"visualType\": \"donutChart\", \"projections\": {\"Category\": [{\"queryRef\": \"dim_commodity.commodity_group\"}], \"Y\": [{\"queryRef\": \"_Measures.Total Mandi Records\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 465,
+          "z": 8,
+          "width": 610,
+          "height": 230,
+          "config": "{\"name\": \"Chart_Crop_Trend\", \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_crop_production.crop_year\"}], \"Y\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        },
+        {
+          "x": 650,
+          "y": 465,
+          "z": 9,
+          "width": 610,
+          "height": 230,
+          "config": "{\"name\": \"Chart_Climate_Cycle\", \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_weather_trends.month\"}], \"Y\": [{\"queryRef\": \"_Measures.National Mean Daily Rainfall (mm)\"}, {\"queryRef\": \"_Measures.National Mean Temperature (C)\"}]}}}"
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "name": "Section_02_Mandi",
+      "displayName": "02 - Mandi Price Analytics",
+      "filters": "[]",
+      "ordinal": 1,
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "z": 0,
+          "width": 1240,
+          "height": 60,
+          "config": "{\"name\": \"Header_Mandi\", \"singleVisual\": {\"visualType\": \"textbox\", \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"AgriPulse India \\u2014 Mandi Wholesale Price Analytics\", \"textStyle\": {\"fontFamily\": \"Segoe UI Semibold\", \"fontSize\": \"18pt\", \"color\": \"#173F35\"}}]}]}}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "z": 1,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Avg_Modal\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Average Mandi Price (INR/Quintal)\"}]}}}"
+        },
+        {
+          "x": 270,
+          "y": 85,
+          "z": 2,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Min_Price\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Minimum Price Recorded\"}]}}}"
+        },
+        {
+          "x": 520,
+          "y": 85,
+          "z": 3,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Max_Price\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Maximum Price Recorded\"}]}}}"
+        },
+        {
+          "x": 770,
+          "y": 85,
+          "z": 4,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Spread\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Average Price Spread\"}]}}}"
+        },
+        {
+          "x": 1030,
+          "y": 85,
+          "z": 5,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Active_Markets\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Active Mandi Markets\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 210,
+          "z": 6,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_Top_Commodities\", \"singleVisual\": {\"visualType\": \"barChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_mandi_prices.commodity_name\"}], \"Y\": [{\"queryRef\": \"_Measures.Average Mandi Price (INR/Quintal)\"}]}}}"
+        },
+        {
+          "x": 650,
+          "y": 210,
+          "z": 7,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_State_Mandi_Prices\", \"singleVisual\": {\"visualType\": \"columnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_mandi_prices.state_name\"}], \"Y\": [{\"queryRef\": \"_Measures.Average Mandi Price (INR/Quintal)\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 465,
+          "z": 8,
+          "width": 1240,
+          "height": 230,
+          "config": "{\"name\": \"Table_Market_Explorer\", \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"fact_mandi_prices.state_name\"}, {\"queryRef\": \"fact_mandi_prices.district_name\"}, {\"queryRef\": \"fact_mandi_prices.market_name\"}, {\"queryRef\": \"fact_mandi_prices.commodity_name\"}, {\"queryRef\": \"_Measures.Average Mandi Price (INR/Quintal)\"}, {\"queryRef\": \"_Measures.Minimum Price Recorded\"}, {\"queryRef\": \"_Measures.Maximum Price Recorded\"}, {\"queryRef\": \"_Measures.Average Price Spread\"}]}}}"
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "name": "Section_03_Crop",
+      "displayName": "03 - Crop Production Analytics",
+      "filters": "[]",
+      "ordinal": 2,
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "z": 0,
+          "width": 1240,
+          "height": 60,
+          "config": "{\"name\": \"Header_Crop\", \"singleVisual\": {\"visualType\": \"textbox\", \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"AgriPulse India \\u2014 Historical Crop Production & Productivity Analytics\", \"textStyle\": {\"fontFamily\": \"Segoe UI Semibold\", \"fontSize\": \"18pt\", \"color\": \"#173F35\"}}]}]}}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "z": 1,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Crop_Tonnes\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        },
+        {
+          "x": 270,
+          "y": 85,
+          "z": 2,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Coconut_Nuts\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Total Coconut Production (Nuts)\"}]}}}"
+        },
+        {
+          "x": 520,
+          "y": 85,
+          "z": 3,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Cultivated_Area\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Cultivated Area (Hectares)\"}]}}}"
+        },
+        {
+          "x": 770,
+          "y": 85,
+          "z": 4,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Avg_Yield\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Average Field Crop Yield (Tonnes/Ha)\"}]}}}"
+        },
+        {
+          "x": 1030,
+          "y": 85,
+          "z": 5,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Crop_Diversity\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Reported Crop Diversity\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 210,
+          "z": 6,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_Top_Crops\", \"singleVisual\": {\"visualType\": \"barChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_crop_production.crop_name\"}], \"Y\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        },
+        {
+          "x": 650,
+          "y": 210,
+          "z": 7,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_Season_Dist\", \"singleVisual\": {\"visualType\": \"columnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_crop_production.season\"}], \"Y\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 465,
+          "z": 8,
+          "width": 1240,
+          "height": 230,
+          "config": "{\"name\": \"Matrix_State_Season\", \"singleVisual\": {\"visualType\": \"pivotTable\", \"projections\": {\"Rows\": [{\"queryRef\": \"fact_crop_production.state_name\"}], \"Columns\": [{\"queryRef\": \"fact_crop_production.season\"}], \"Values\": [{\"queryRef\": \"_Measures.Total Field Crop Production (Tonnes)\"}]}}}"
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "name": "Section_04_Weather",
+      "displayName": "04 - Weather Analytics",
+      "filters": "[]",
+      "ordinal": 3,
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "z": 0,
+          "width": 1240,
+          "height": 60,
+          "config": "{\"name\": \"Header_Weather\", \"singleVisual\": {\"visualType\": \"textbox\", \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"AgriPulse India \\u2014 NASA POWER Meteorology & Climate Dynamics\", \"textStyle\": {\"fontFamily\": \"Segoe UI Semibold\", \"fontSize\": \"18pt\", \"color\": \"#173F35\"}}]}]}}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "z": 1,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Weather_Mean_Temp\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.National Mean Temperature (C)\"}]}}}"
+        },
+        {
+          "x": 270,
+          "y": 85,
+          "z": 2,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Weather_Cold_Temp\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Record Coldest Temperature\"}]}}}"
+        },
+        {
+          "x": 520,
+          "y": 85,
+          "z": 3,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Weather_Warm_Temp\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Record Warmest Temperature\"}]}}}"
+        },
+        {
+          "x": 770,
+          "y": 85,
+          "z": 4,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"KPI_Weather_Mean_Rain\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.National Mean Daily Rainfall (mm)\"}]}}}"
+        },
+        {
+          "x": 1030,
+          "y": 85,
+          "z": 5,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"KPI_SubZero_Frost\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Measures.Sub-Zero Frost Observations\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 210,
+          "z": 6,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_Annual_Temp_Cycle\", \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_weather_trends.month\"}], \"Series\": [{\"queryRef\": \"fact_weather_trends.year\"}], \"Y\": [{\"queryRef\": \"_Measures.National Mean Temperature (C)\"}]}}}"
+        },
+        {
+          "x": 650,
+          "y": 210,
+          "z": 7,
+          "width": 610,
+          "height": 240,
+          "config": "{\"name\": \"Chart_Monsoon_Rainfall\", \"singleVisual\": {\"visualType\": \"areaChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_weather_trends.period_label\"}], \"Y\": [{\"queryRef\": \"_Measures.National Mean Daily Rainfall (mm)\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 465,
+          "z": 8,
+          "width": 1240,
+          "height": 230,
+          "config": "{\"name\": \"Chart_Extreme_Weather_Events\", \"singleVisual\": {\"visualType\": \"columnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fact_weather_trends.year\"}], \"Y\": [{\"queryRef\": \"_Measures.Sub-Zero Frost Observations\"}, {\"queryRef\": \"_Measures.Extreme Rainfall Events (>100mm)\"}]}}}"
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    }
+  ]
+}

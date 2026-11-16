@@ -36,3 +36,7 @@ Thumbs.db
 # Secrets – never commit
 .env
 *.key
+
+# Power BI Local Binary Data Files
+*.pbix
+powerbi/drivers/*.msi

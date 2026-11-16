@@ -1,6 +1,6 @@
 {
   "pipeline": "infrastructure_monitoring",
-  "timestamp_utc": "2026-11-16T22:45:03.563750+00:00",
+  "timestamp_utc": "2026-11-16T23:00:03.264164+00:00",
   "kafka": {
     "bootstrap_server": "kafka:9092",
     "connected": true,
@@ -41,7 +41,7 @@
     ],
     "table_counts": {
       "agripulse_clean": 5,
-      "agripulse_mart": 6
+      "agripulse_mart": 8
     }
   },
   "overall_health": "HEALTHY"
