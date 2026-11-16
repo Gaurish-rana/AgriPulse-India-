@@ -65,10 +65,10 @@ COMMENT = 'Historical crop production with standardized states, segregated units
 --   temperature_celsius_2m: degrees Celsius (°C)
 -- Preserves negative temperatures in Himalayan regions, missing markers converted to NULL.
 CREATE TABLE IF NOT EXISTS CLEAN_WEATHER (
-    weather_date DATE NOT NULL,
-    observation_year INT NOT NULL,
-    observation_month INT NOT NULL,
-    observation_day INT NOT NULL,
+    date DATE NOT NULL,
+    year INT NOT NULL,
+    month INT NOT NULL,
+    day INT NOT NULL,
     day_of_year INT,
     latitude NUMBER(7, 4) NOT NULL,
     longitude NUMBER(7, 4) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS CLEAN_WEATHER (
     is_subzero_high_altitude BOOLEAN DEFAULT FALSE,
     is_extreme_precipitation BOOLEAN DEFAULT FALSE,
     loaded_at_utc TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
-    CONSTRAINT pk_clean_weather PRIMARY KEY (weather_date, latitude, longitude)
+    CONSTRAINT pk_clean_weather PRIMARY KEY (date, latitude, longitude)
 )
-CLUSTER BY (weather_date, latitude, longitude)
+CLUSTER BY (date, latitude, longitude)
 COMMENT = 'Cleansed daily gridded NASA POWER meteorology (0.5x0.5 deg) with quality flags and preserved sub-zero temperatures';

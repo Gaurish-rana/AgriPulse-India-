@@ -264,10 +264,10 @@ USING (
         MD5(CONCAT_WS('#',
             TO_VARCHAR(latitude, '00.0000'),
             TO_VARCHAR(longitude, '000.0000'),
-            TO_VARCHAR(weather_date, 'YYYY-MM-DD')
+            TO_VARCHAR(date, 'YYYY-MM-DD')
         )) AS weather_fact_key,
-        TO_NUMBER(TO_VARCHAR(weather_date, 'YYYYMMDD')) AS date_key,
-        weather_date,
+        TO_NUMBER(TO_VARCHAR(date, 'YYYYMMDD')) AS date_key,
+        date AS weather_date,
         latitude,
         longitude,
         precipitation_mm_per_day AS rainfall_mm_per_day,

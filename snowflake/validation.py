@@ -170,8 +170,8 @@ def validate_weather_clean(conn, local_rows: int) -> Dict[str, Any]:
     
     stats = run_query(conn, """
         SELECT
-            MIN(weather_date),
-            MAX(weather_date),
+            MIN(date),
+            MAX(date),
             MIN(latitude),
             MAX(latitude),
             MIN(longitude),
