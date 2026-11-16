@@ -1,0 +1,81 @@
+{
+  "generated_at_utc": "2026-11-16T22:13:15.387833+00:00",
+  "validation_suite": "AgriPulse India ClickHouse Open-Source DWH Validation",
+  "mandi_clean": {
+    "table": "agripulse_clean.clean_mandi_prices",
+    "local_source_rows": 12726,
+    "clickhouse_rows": 12726,
+    "reconciliation_match": true,
+    "null_counts": {
+      "empty_state": 0,
+      "empty_market": 0,
+      "empty_commodity": 0,
+      "non_positive_modal_price": 0,
+      "invalid_price_relations": 0
+    },
+    "date_range": {
+      "min": "2026-11-16",
+      "max": "2026-11-16"
+    },
+    "distinct_counts": {
+      "states": 25,
+      "commodities": 253,
+      "markets": 1780
+    }
+  },
+  "crop_clean": {
+    "table": "agripulse_clean.clean_crop_production",
+    "local_source_rows": 246091,
+    "clickhouse_rows": 246091,
+    "reconciliation_match": true,
+    "year_range": {
+      "min": 1997,
+      "max": 2015
+    },
+    "distinct_counts": {
+      "states": 33,
+      "districts": 646,
+      "crops": 124
+    },
+    "missing_production_rows": 3730,
+    "unit_integrity": {
+      "coconut_unit_correct": true,
+      "field_crop_unit_correct": true
+    }
+  },
+  "weather_clean": {
+    "table": "agripulse_clean.clean_weather",
+    "local_source_rows": 7121520,
+    "clickhouse_rows": 7121520,
+    "reconciliation_match": true,
+    "date_range": {
+      "min": "2020-01-01",
+      "max": "2026-11-16"
+    },
+    "coordinate_bounds": {
+      "lat_min": 6.5,
+      "lat_max": 37.5,
+      "lon_min": 68.125,
+      "lon_max": 95.625
+    },
+    "temperature_range_celsius": {
+      "min": -34.62,
+      "max": 43.52
+    },
+    "negative_temperatures_preserved": 854937,
+    "missing_precipitation_flags": 5670,
+    "missing_temperature_flags": 5670
+  },
+  "mart_tables": {
+    "schema": "agripulse_mart",
+    "row_counts": {
+      "dim_date": 14975,
+      "dim_location": 2442,
+      "dim_commodity": 2050,
+      "fact_mandi_prices": 12726,
+      "fact_crop_production": 246091,
+      "fact_weather": 7121520
+    },
+    "all_marts_populated": true
+  }
+}

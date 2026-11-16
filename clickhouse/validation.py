@@ -41,7 +41,8 @@ def validate_mandi_clean(client, local_rows: int) -> Dict[str, Any]:
     """Validate agripulse_clean.clean_mandi_prices."""
     log.info("Validating agripulse_clean.clean_mandi_prices...")
 
-    row_count = client.query("SELECT count() FROM agripulse_clean.clean_mandi_prices").result_rows[0][0]
+    client.command("OPTIMIZE TABLE agripulse_clean.clean_mandi_prices FINAL")
+    row_count = client.query("SELECT count() FROM agripulse_clean.clean_mandi_prices FINAL").result_rows[0][0]
     
     null_res = client.query("""
         SELECT
@@ -88,7 +89,8 @@ def validate_crop_clean(client, local_rows: int) -> Dict[str, Any]:
     """Validate agripulse_clean.clean_crop_production."""
     log.info("Validating agripulse_clean.clean_crop_production...")
 
-    row_count = client.query("SELECT count() FROM agripulse_clean.clean_crop_production").result_rows[0][0]
+    client.command("OPTIMIZE TABLE agripulse_clean.clean_crop_production FINAL")
+    row_count = client.query("SELECT count() FROM agripulse_clean.clean_crop_production FINAL").result_rows[0][0]
 
     stats = client.query("""
         SELECT

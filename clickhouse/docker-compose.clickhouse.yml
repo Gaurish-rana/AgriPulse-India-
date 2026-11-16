@@ -17,8 +17,6 @@ services:
       - clickhouse_data:/var/lib/clickhouse
       # Auto-run SQL initialization scripts in sequence
       - ./sql:/docker-entrypoint-initdb.d:ro
-      # Read-only mount of local datasets for direct zero-copy Parquet imports
-      - ../data:/var/lib/clickhouse/user_files/data:ro
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8123/ping || exit 1"]
       interval: 10s

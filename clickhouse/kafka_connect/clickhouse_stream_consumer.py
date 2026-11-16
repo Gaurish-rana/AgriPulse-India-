@@ -19,7 +19,7 @@ if ROOT_DIR not in sys.path:
 
 from confluent_kafka import Consumer, KafkaError
 from src.utils.logger import get_logger
-from src.streaming.kafka_config import get_kafka_config
+from src.streaming.kafka_config import KafkaConfig
 from clickhouse.connection import get_client
 
 log = get_logger("ClickHouseStreamConsumer")
@@ -27,9 +27,8 @@ log = get_logger("ClickHouseStreamConsumer")
 
 def create_clean_consumer(group_id: str = "clickhouse-mandi-ingestor") -> Consumer:
     """Initialize Kafka consumer for clean mandi prices."""
-    kafka_cfg = get_kafka_config()
     conf = {
-        "bootstrap.servers": kafka_cfg["bootstrap_servers"],
+        "bootstrap.servers": KafkaConfig.BOOTSTRAP_SERVERS,
         "group.id": group_id,
         "auto.offset.reset": "earliest",
         "enable.auto.commit": False,
@@ -45,8 +44,18 @@ def flush_batch_to_clickhouse(client, records: List[Dict[str, Any]]) -> int:
     rows = []
     for rec in records:
         arr_date = rec.get("arrival_date")
-        arr_year = int(arr_date[:4]) if arr_date and len(arr_date) >= 4 else 2026
-        arr_month = int(arr_date[5:7]) if arr_date and len(arr_date) >= 7 else 1
+        if isinstance(arr_date, str):
+            try:
+                arr_date_obj = datetime.strptime(arr_date[:10], "%Y-%m-%d").date()
+            except Exception:
+                arr_date_obj = datetime.now(timezone.utc).date()
+        elif hasattr(arr_date, "date"):
+            arr_date_obj = arr_date.date()
+        else:
+            arr_date_obj = arr_date or datetime.now(timezone.utc).date()
+
+        arr_year = arr_date_obj.year
+        arr_month = arr_date_obj.month
         rows.append((
             rec.get("state_name", "UNKNOWN"),
             rec.get("district_name", "UNKNOWN"),
@@ -54,7 +63,7 @@ def flush_batch_to_clickhouse(client, records: List[Dict[str, Any]]) -> int:
             rec.get("commodity_name", "UNKNOWN"),
             rec.get("variety_name", "Other"),
             rec.get("grade", "Standard"),
-            arr_date,
+            arr_date_obj,
             float(rec.get("min_price_inr_quintal") or 0.0),
             float(rec.get("max_price_inr_quintal") or 0.0),
             float(rec.get("modal_price_inr_quintal") or 0.0),

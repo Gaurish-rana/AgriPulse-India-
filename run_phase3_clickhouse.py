@@ -136,12 +136,12 @@ def run_live_pipeline():
         execute_script(os.path.join(ROOT_DIR, s))
 
     # Step 2: Sample Batch Loading
-    log.info("Running sample batch load (100 rows per dataset)...")
-    run_all_batch_loads(sample_only=True)
+    log.info("Running sample batch load verification (100 rows per dataset)...")
+    run_all_batch_loads(sample_only=True, force=True)
 
     # Step 3: Full Batch Loading
     log.info("Running full batch ingestion (Mandi, Crop, and 7.12M NASA Weather)...")
-    run_all_batch_loads(sample_only=False)
+    run_all_batch_loads(sample_only=False, force=True)
 
     # Step 4: Transformations
     log.info("Executing analytical transformations (CLEAN -> MART)...")
