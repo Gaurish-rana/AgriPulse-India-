@@ -628,27 +628,21 @@
         "fromTable": "fact_mandi_prices",
         "fromColumn": "commodity_name",
         "toTable": "dim_commodity",
-        "toColumn": "commodity_name",
-        "cardinality": "manyToMany",
-        "crossFilteringBehavior": "oneDirection"
+        "toColumn": "commodity_name"
       },
       {
         "name": "Location_To_MandiPrices",
         "fromTable": "fact_mandi_prices",
         "fromColumn": "state_name",
         "toTable": "dim_location",
-        "toColumn": "state_name",
-        "cardinality": "manyToMany",
-        "crossFilteringBehavior": "oneDirection"
+        "toColumn": "state_name"
       },
       {
         "name": "Location_To_CropProduction",
         "fromTable": "fact_crop_production",
         "fromColumn": "state_name",
         "toTable": "dim_location",
-        "toColumn": "state_name",
-        "cardinality": "manyToMany",
-        "crossFilteringBehavior": "oneDirection"
+        "toColumn": "state_name"
       }
     ]
   }
