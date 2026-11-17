@@ -236,7 +236,7 @@ model_bim = {
                     },
                     {
                         "name": "Minimum Price Recorded",
-                        "expression": "MIN('fact_mandi_prices'[min_price_inr_quintal])",
+                        "expression": "CALCULATE(MIN('fact_mandi_prices'[min_price_inr_quintal]), 'fact_mandi_prices'[min_price_inr_quintal] >= 100)",
                         "formatString": "₹ #,##0.00"
                     },
                     {
