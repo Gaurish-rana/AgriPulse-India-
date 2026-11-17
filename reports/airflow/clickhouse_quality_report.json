@@ -1,6 +1,6 @@
 {
   "pipeline": "clickhouse_quality_pipeline",
-  "executed_at_utc": "2026-11-16T22:36:37.287788+00:00",
+  "executed_at_utc": "2026-11-17T16:19:09.352461+00:00",
   "database_structure": {
     "databases": [
       "agripulse_raw",
@@ -27,7 +27,9 @@
         "dim_location",
         "fact_crop_production",
         "fact_mandi_prices",
-        "fact_weather"
+        "fact_weather",
+        "view_weather_monthly_summary",
+        "view_weather_regional_trends"
       ]
     }
   },
@@ -38,9 +40,9 @@
       "weather": 7121520
     },
     "fact_counts": {
-      "fact_mandi_prices": 12726,
-      "fact_crop_production": 246091,
-      "fact_weather": 7121520
+      "fact_mandi_prices": 38180,
+      "fact_crop_production": 738273,
+      "fact_weather": 21364560
     },
     "all_benchmarks_satisfied": true
   },
@@ -52,8 +54,8 @@
     "max_negative_temp_observed": -0.01,
     "dimensions": {
       "dim_date": 14975,
-      "dim_location": 2442,
-      "dim_commodity": 2050
+      "dim_location": 2443,
+      "dim_commodity": 2051
     }
   },
   "status": "HEALTHY"

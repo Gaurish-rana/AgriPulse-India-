@@ -1,6 +1,6 @@
 {
   "pipeline": "mandi_price_pipeline",
-  "executed_at_utc": "2026-11-16T23:01:06.167303+00:00",
+  "executed_at_utc": "2026-11-17T16:18:52.263023+00:00",
   "api_reachability": {
     "reachable": false,
     "status_code": 400

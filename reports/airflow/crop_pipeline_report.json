@@ -1,9 +1,9 @@
 {
   "pipeline": "crop_production_pipeline",
-  "executed_at_utc": "2026-11-16T22:39:24.846942+00:00",
-  "incremental_action": "PROCESSED",
+  "executed_at_utc": "2026-11-17T16:18:43.097468+00:00",
+  "incremental_action": "SKIPPED",
   "files_checked": 1,
-  "files_reprocessed": 1,
+  "files_reprocessed": 0,
   "warehouse_status": {
     "total_warehouse_rows": 246091
   },

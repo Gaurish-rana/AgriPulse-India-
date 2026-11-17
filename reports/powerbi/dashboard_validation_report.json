@@ -1,6 +1,6 @@
 {
   "report_name": "AgriPulse India \u2014 Power BI Dashboard Validation Report",
-  "timestamp_utc": "2026-11-16T23:05:05.166746+00:00",
+  "timestamp_utc": "2026-11-17T16:29:06.015561+00:00",
   "clickhouse_connection": {
     "status": "CONNECTED",
     "host": "localhost",

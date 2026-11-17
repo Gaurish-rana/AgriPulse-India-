@@ -11,6 +11,7 @@ import os
 import json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data").replace("\\", "/")
 DATASET_DIR = os.path.join(BASE_DIR, "AgriPulse_India.Dataset")
 REPORT_DIR = os.path.join(BASE_DIR, "AgriPulse_India.Report")
 
@@ -56,15 +57,16 @@ with open(os.path.join(REPORT_DIR, "definition.pbir"), "w", encoding="utf-8") as
     json.dump(report_def, f, indent=2)
 
 # 4. Construct TMSL Model (model.bim)
-def make_m_partition(query: str):
-    """Generates standard Power Query M script connecting to ClickHouse HTTP endpoint."""
-    encoded = query.replace('"', '\\"').replace("\n", " ").strip()
+def make_file_m_partition(csv_name: str):
+    """Generates standard Power Query M script reading local conformed ClickHouse data CSV."""
+    full_path = f"{DATA_DIR}/{csv_name}".replace("/", "\\")
+    escaped_path = full_path.replace("\\", "\\\\")
     m_script = [
-        f'let',
-        f'    Source = Csv.Document(Web.Contents("http://localhost:8123/", [Query=[query="{encoded} FORMAT CSVWithNames"]]), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),',
-        f'    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])',
-        f'in',
-        f'    PromotedHeaders'
+        "let",
+        f'    Source = Csv.Document(File.Contents("{escaped_path}"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),',
+        "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+        "in",
+        "    PromotedHeaders"
     ]
     return m_script
 
@@ -231,7 +233,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_m_partition("SELECT * FROM agripulse_mart.dim_date ORDER BY date_key ASC")
+                            "expression": make_file_m_partition("dim_date.csv")
                         }
                     }
                 ]
@@ -239,14 +241,10 @@ model_bim = {
             {
                 "name": "dim_location",
                 "columns": [
-                    {"name": "location_key", "dataType": "string", "sourceColumn": "location_key"},
                     {"name": "state_name", "dataType": "string", "sourceColumn": "state_name", "dataCategory": "StateOrProvince"},
-                    {"name": "district_name", "dataType": "string", "sourceColumn": "district_name", "dataCategory": "County"},
-                    {"name": "market_name", "dataType": "string", "sourceColumn": "market_name"},
-                    {"name": "location_type", "dataType": "string", "sourceColumn": "location_type"},
+                    {"name": "region", "dataType": "string", "sourceColumn": "region"},
                     {"name": "latitude", "dataType": "double", "sourceColumn": "latitude", "dataCategory": "Latitude"},
-                    {"name": "longitude", "dataType": "double", "sourceColumn": "longitude", "dataCategory": "Longitude"},
-                    {"name": "region", "dataType": "string", "sourceColumn": "region"}
+                    {"name": "longitude", "dataType": "double", "sourceColumn": "longitude", "dataCategory": "Longitude"}
                 ],
                 "partitions": [
                     {
@@ -254,7 +252,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_m_partition("SELECT toString(location_key) AS location_key, state_name, district_name, ifNull(market_name, 'All') AS market_name, location_type, ifNull(latitude, 0.0) AS latitude, ifNull(longitude, 0.0) AS longitude, region FROM agripulse_mart.dim_location FINAL")
+                            "expression": make_file_m_partition("dim_location.csv")
                         }
                     }
                 ]
@@ -262,11 +260,8 @@ model_bim = {
             {
                 "name": "dim_commodity",
                 "columns": [
-                    {"name": "commodity_key", "dataType": "string", "sourceColumn": "commodity_key"},
                     {"name": "commodity_name", "dataType": "string", "sourceColumn": "commodity_name"},
                     {"name": "commodity_group", "dataType": "string", "sourceColumn": "commodity_group"},
-                    {"name": "variety_name", "dataType": "string", "sourceColumn": "variety_name"},
-                    {"name": "grade", "dataType": "string", "sourceColumn": "grade"},
                     {"name": "standard_unit", "dataType": "string", "sourceColumn": "standard_unit"}
                 ],
                 "partitions": [
@@ -275,7 +270,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_m_partition("SELECT toString(commodity_key) AS commodity_key, commodity_name, commodity_group, variety_name, grade, standard_unit FROM agripulse_mart.dim_commodity FINAL")
+                            "expression": make_file_m_partition("dim_commodity.csv")
                         }
                     }
                 ]
@@ -298,7 +293,8 @@ model_bim = {
                     {"name": "price_spread_inr_quintal", "dataType": "double", "sourceColumn": "price_spread_inr_quintal"},
                     {"name": "arrival_quantity_quintals", "dataType": "double", "sourceColumn": "arrival_quantity_quintals"},
                     {"name": "currency", "dataType": "string", "sourceColumn": "currency"},
-                    {"name": "price_unit", "dataType": "string", "sourceColumn": "price_unit"}
+                    {"name": "price_unit", "dataType": "string", "sourceColumn": "price_unit"},
+                    {"name": "is_price_relation_valid", "dataType": "int64", "sourceColumn": "is_price_relation_valid"}
                 ],
                 "partitions": [
                     {
@@ -306,7 +302,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_m_partition("SELECT mandi_fact_key, date_key, arrival_date, state_name, district_name, market_name, commodity_name, variety_name, grade, modal_price_inr_quintal, min_price_inr_quintal, max_price_inr_quintal, price_spread_inr_quintal, ifNull(arrival_quantity_quintals, 0.0) AS arrival_quantity_quintals, currency, price_unit FROM agripulse_mart.fact_mandi_prices FINAL")
+                            "expression": make_file_m_partition("fact_mandi_prices.csv")
                         }
                     }
                 ]
@@ -336,7 +332,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_m_partition("SELECT crop_fact_key, crop_year, state_name, district_name, crop_name, season, ifNull(area_hectares, 0.0) AS area_hectares, ifNull(production, 0.0) AS production, production_unit, ifNull(production_tonnes, 0.0) AS production_tonnes, ifNull(production_coconut_nuts, 0.0) AS production_coconut_nuts, ifNull(yield_tonnes_per_hectare, 0.0) AS yield_tonnes_per_hectare, ifNull(yield_coconut_nuts_per_hectare, 0.0) AS yield_coconut_nuts_per_hectare, is_production_missing, is_incomplete_year FROM agripulse_mart.fact_crop_production FINAL")
+                            "expression": make_file_m_partition("fact_crop_production.csv")
                         }
                     }
                 ]
@@ -362,7 +358,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_m_partition("SELECT year, month, concat(toString(year), '-', lpad(toString(month), 2, '0')) AS period_label, total_observations, national_avg_temperature, national_min_temperature, national_max_temperature, national_avg_daily_rainfall, national_total_rainfall, subzero_observations, extreme_rainfall_events FROM agripulse_mart.view_weather_regional_trends ORDER BY year ASC, month ASC")
+                            "expression": make_file_m_partition("fact_weather_trends.csv")
                         }
                     }
                 ]

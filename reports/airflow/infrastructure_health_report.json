@@ -1,6 +1,6 @@
 {
   "pipeline": "infrastructure_monitoring",
-  "timestamp_utc": "2026-11-16T23:15:06.942626+00:00",
+  "timestamp_utc": "2026-11-17T16:18:52.262781+00:00",
   "kafka": {
     "bootstrap_server": "kafka:9092",
     "connected": true,

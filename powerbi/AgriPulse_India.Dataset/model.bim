@@ -212,7 +212,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(Web.Contents(\"http://localhost:8123/\", [Query=[query=\"SELECT * FROM agripulse_mart.dim_date ORDER BY date_key ASC FORMAT CSVWithNames\"]]), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    Source = Csv.Document(File.Contents(\"C:\\\\Users\\\\Gaurish16\\\\OneDrive\\\\Desktop\\\\AgriPulse-India\\\\powerbi\\\\data\\\\dim_date.csv\"), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -225,31 +225,15 @@
         "name": "dim_location",
         "columns": [
           {
-            "name": "location_key",
-            "dataType": "string",
-            "sourceColumn": "location_key"
-          },
-          {
             "name": "state_name",
             "dataType": "string",
             "sourceColumn": "state_name",
             "dataCategory": "StateOrProvince"
           },
           {
-            "name": "district_name",
+            "name": "region",
             "dataType": "string",
-            "sourceColumn": "district_name",
-            "dataCategory": "County"
-          },
-          {
-            "name": "market_name",
-            "dataType": "string",
-            "sourceColumn": "market_name"
-          },
-          {
-            "name": "location_type",
-            "dataType": "string",
-            "sourceColumn": "location_type"
+            "sourceColumn": "region"
           },
           {
             "name": "latitude",
@@ -262,11 +246,6 @@
             "dataType": "double",
             "sourceColumn": "longitude",
             "dataCategory": "Longitude"
-          },
-          {
-            "name": "region",
-            "dataType": "string",
-            "sourceColumn": "region"
           }
         ],
         "partitions": [
@@ -277,7 +256,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(Web.Contents(\"http://localhost:8123/\", [Query=[query=\"SELECT toString(location_key) AS location_key, state_name, district_name, ifNull(market_name, 'All') AS market_name, location_type, ifNull(latitude, 0.0) AS latitude, ifNull(longitude, 0.0) AS longitude, region FROM agripulse_mart.dim_location FINAL FORMAT CSVWithNames\"]]), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    Source = Csv.Document(File.Contents(\"C:\\\\Users\\\\Gaurish16\\\\OneDrive\\\\Desktop\\\\AgriPulse-India\\\\powerbi\\\\data\\\\dim_location.csv\"), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -290,11 +269,6 @@
         "name": "dim_commodity",
         "columns": [
           {
-            "name": "commodity_key",
-            "dataType": "string",
-            "sourceColumn": "commodity_key"
-          },
-          {
             "name": "commodity_name",
             "dataType": "string",
             "sourceColumn": "commodity_name"
@@ -303,16 +277,6 @@
             "name": "commodity_group",
             "dataType": "string",
             "sourceColumn": "commodity_group"
-          },
-          {
-            "name": "variety_name",
-            "dataType": "string",
-            "sourceColumn": "variety_name"
-          },
-          {
-            "name": "grade",
-            "dataType": "string",
-            "sourceColumn": "grade"
           },
           {
             "name": "standard_unit",
@@ -328,7 +292,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(Web.Contents(\"http://localhost:8123/\", [Query=[query=\"SELECT toString(commodity_key) AS commodity_key, commodity_name, commodity_group, variety_name, grade, standard_unit FROM agripulse_mart.dim_commodity FINAL FORMAT CSVWithNames\"]]), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    Source = Csv.Document(File.Contents(\"C:\\\\Users\\\\Gaurish16\\\\OneDrive\\\\Desktop\\\\AgriPulse-India\\\\powerbi\\\\data\\\\dim_commodity.csv\"), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -419,6 +383,11 @@
             "name": "price_unit",
             "dataType": "string",
             "sourceColumn": "price_unit"
+          },
+          {
+            "name": "is_price_relation_valid",
+            "dataType": "int64",
+            "sourceColumn": "is_price_relation_valid"
           }
         ],
         "partitions": [
@@ -429,7 +398,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(Web.Contents(\"http://localhost:8123/\", [Query=[query=\"SELECT mandi_fact_key, date_key, arrival_date, state_name, district_name, market_name, commodity_name, variety_name, grade, modal_price_inr_quintal, min_price_inr_quintal, max_price_inr_quintal, price_spread_inr_quintal, ifNull(arrival_quantity_quintals, 0.0) AS arrival_quantity_quintals, currency, price_unit FROM agripulse_mart.fact_mandi_prices FINAL FORMAT CSVWithNames\"]]), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    Source = Csv.Document(File.Contents(\"C:\\\\Users\\\\Gaurish16\\\\OneDrive\\\\Desktop\\\\AgriPulse-India\\\\powerbi\\\\data\\\\fact_mandi_prices.csv\"), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -525,7 +494,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(Web.Contents(\"http://localhost:8123/\", [Query=[query=\"SELECT crop_fact_key, crop_year, state_name, district_name, crop_name, season, ifNull(area_hectares, 0.0) AS area_hectares, ifNull(production, 0.0) AS production, production_unit, ifNull(production_tonnes, 0.0) AS production_tonnes, ifNull(production_coconut_nuts, 0.0) AS production_coconut_nuts, ifNull(yield_tonnes_per_hectare, 0.0) AS yield_tonnes_per_hectare, ifNull(yield_coconut_nuts_per_hectare, 0.0) AS yield_coconut_nuts_per_hectare, is_production_missing, is_incomplete_year FROM agripulse_mart.fact_crop_production FINAL FORMAT CSVWithNames\"]]), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    Source = Csv.Document(File.Contents(\"C:\\\\Users\\\\Gaurish16\\\\OneDrive\\\\Desktop\\\\AgriPulse-India\\\\powerbi\\\\data\\\\fact_crop_production.csv\"), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -601,7 +570,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(Web.Contents(\"http://localhost:8123/\", [Query=[query=\"SELECT year, month, concat(toString(year), '-', lpad(toString(month), 2, '0')) AS period_label, total_observations, national_avg_temperature, national_min_temperature, national_max_temperature, national_avg_daily_rainfall, national_total_rainfall, subzero_observations, extreme_rainfall_events FROM agripulse_mart.view_weather_regional_trends ORDER BY year ASC, month ASC FORMAT CSVWithNames\"]]), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    Source = Csv.Document(File.Contents(\"C:\\\\Users\\\\Gaurish16\\\\OneDrive\\\\Desktop\\\\AgriPulse-India\\\\powerbi\\\\data\\\\fact_weather_trends.csv\"), [Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
