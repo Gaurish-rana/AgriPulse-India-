@@ -1,8 +1,8 @@
 """
-AgriPulse India — Power BI ClickHouse Data Loader (100% Unique Primary Keys)
-============================================================================
+AgriPulse India — Power BI ClickHouse Data Loader (100% Case-Insensitive Unique Keys)
+=====================================================================================
 This script connects to the local ClickHouse Data Warehouse (agripulse_mart)
-and loads the 6 conformed analytical tables with 100% unique primary keys.
+and loads the 6 conformed analytical tables with 100% case-insensitive unique primary keys.
 
 Usage in Power BI Desktop:
   1. Open Power BI Desktop.
@@ -26,7 +26,6 @@ import pandas as pd
 try:
     import clickhouse_connect
     
-    # Connect directly to ClickHouse OLAP Warehouse
     client = clickhouse_connect.get_client(
         host="localhost",
         port=8123,
@@ -47,11 +46,11 @@ try:
         ORDER BY date_key ASC
     """)
     
-    # 2. Geographic Hierarchy Dimension (33 rows, 100% unique state_name)
+    # 2. Geographic Hierarchy Dimension (33 rows, case-insensitively unique state_name)
     dim_location = client.query_df("""
         SELECT 
             any(toString(location_key)) AS location_key,
-            state_name,
+            any(state_name) AS st_name,
             any(district_name) AS district_name,
             ifNull(any(market_name), 'All Markets') AS market_name,
             any(location_type) AS location_type,
@@ -59,23 +58,25 @@ try:
             round(avg(longitude), 4) AS longitude,
             any(region) AS region
         FROM agripulse_mart.dim_location
-        GROUP BY state_name
-        ORDER BY state_name ASC
+        GROUP BY lower(state_name)
     """)
+    dim_location.rename(columns={'st_name': 'state_name'}, inplace=True)
+    dim_location.sort_values('state_name', inplace=True)
     
-    # 3. Commodity Master Dimension (341 rows, 100% unique commodity_name)
+    # 3. Commodity Master Dimension (336 rows, case-insensitively unique commodity_name)
     dim_commodity = client.query_df("""
         SELECT 
             any(toString(commodity_key)) AS commodity_key,
-            commodity_name,
+            any(commodity_name) AS comm_name,
             any(commodity_group) AS commodity_group,
             any(variety_name) AS variety_name,
             any(grade) AS grade,
             any(standard_unit) AS standard_unit
         FROM agripulse_mart.dim_commodity
-        GROUP BY commodity_name
-        ORDER BY commodity_name ASC
+        GROUP BY lower(commodity_name)
     """)
+    dim_commodity.rename(columns={'comm_name': 'commodity_name'}, inplace=True)
+    dim_commodity.sort_values('commodity_name', inplace=True)
     
     # 4. Mandi Wholesale Prices Fact (12,727 rows)
     fact_mandi_prices = client.query_df("""
@@ -145,7 +146,7 @@ try:
     print("SUCCESS: All 6 analytical datasets loaded directly from live ClickHouse warehouse!")
 
 except Exception as err:
-    print(f"ClickHouse note: {err}. Loading from verified local CSV export...")
+    print(f"ClickHouse direct connection note: {err}. Loading from verified local CSV export...")
     base_dir = r"C:\Users\Gaurish16\OneDrive\Desktop\AgriPulse-India\powerbi\data"
     
     dim_date = pd.read_csv(os.path.join(base_dir, "dim_date.csv"))
