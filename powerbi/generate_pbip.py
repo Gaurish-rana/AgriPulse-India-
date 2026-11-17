@@ -386,7 +386,7 @@ model_bim = {
                 "toTable": "dim_commodity",
                 "toColumn": "commodity_name",
                 "cardinality": "manyToMany",
-                "crossFilteringBehavior": "bothDirections"
+                "crossFilteringBehavior": "oneDirection"
             },
             {
                 "name": "Location_To_MandiPrices",
@@ -395,7 +395,7 @@ model_bim = {
                 "toTable": "dim_location",
                 "toColumn": "state_name",
                 "cardinality": "manyToMany",
-                "crossFilteringBehavior": "bothDirections"
+                "crossFilteringBehavior": "oneDirection"
             },
             {
                 "name": "Location_To_CropProduction",
@@ -404,7 +404,7 @@ model_bim = {
                 "toTable": "dim_location",
                 "toColumn": "state_name",
                 "cardinality": "manyToMany",
-                "crossFilteringBehavior": "bothDirections"
+                "crossFilteringBehavior": "oneDirection"
             }
         ]
     }
