@@ -1,7 +1,7 @@
 """
 AgriPulse India - ClickHouse to Power BI CSV Staging Exporter
 Exports conformed mart tables directly from ClickHouse into local CSV files
-with clean primary keys for Power BI Desktop star-schema modeling.
+with complete schemas (including commodity_key and location_key).
 """
 import os
 import sys
@@ -25,22 +25,27 @@ def export_all():
         """),
         ("dim_location.csv", """
             SELECT 
-                state_name, 
-                any(region) AS region, 
-                round(avg(latitude), 4) AS latitude, 
-                round(avg(longitude), 4) AS longitude 
-            FROM agripulse_mart.dim_location 
-            GROUP BY state_name 
-            ORDER BY state_name ASC
+                toString(location_key) AS location_key,
+                state_name,
+                district_name,
+                ifNull(market_name, 'All') AS market_name,
+                location_type,
+                ifNull(latitude, 0.0) AS latitude,
+                ifNull(longitude, 0.0) AS longitude,
+                region
+            FROM agripulse_mart.dim_location FINAL
+            ORDER BY state_name, district_name, market_name
         """),
         ("dim_commodity.csv", """
             SELECT 
-                commodity_name, 
-                any(commodity_group) AS commodity_group, 
-                any(standard_unit) AS standard_unit 
-            FROM agripulse_mart.dim_commodity 
-            GROUP BY commodity_name 
-            ORDER BY commodity_name ASC
+                toString(commodity_key) AS commodity_key,
+                commodity_name,
+                commodity_group,
+                variety_name,
+                grade,
+                standard_unit
+            FROM agripulse_mart.dim_commodity FINAL
+            ORDER BY commodity_group, commodity_name
         """),
         ("fact_mandi_prices.csv", """
             SELECT 

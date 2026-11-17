@@ -241,10 +241,14 @@ model_bim = {
             {
                 "name": "dim_location",
                 "columns": [
+                    {"name": "location_key", "dataType": "string", "sourceColumn": "location_key"},
                     {"name": "state_name", "dataType": "string", "sourceColumn": "state_name", "dataCategory": "StateOrProvince"},
-                    {"name": "region", "dataType": "string", "sourceColumn": "region"},
+                    {"name": "district_name", "dataType": "string", "sourceColumn": "district_name", "dataCategory": "County"},
+                    {"name": "market_name", "dataType": "string", "sourceColumn": "market_name"},
+                    {"name": "location_type", "dataType": "string", "sourceColumn": "location_type"},
                     {"name": "latitude", "dataType": "double", "sourceColumn": "latitude", "dataCategory": "Latitude"},
-                    {"name": "longitude", "dataType": "double", "sourceColumn": "longitude", "dataCategory": "Longitude"}
+                    {"name": "longitude", "dataType": "double", "sourceColumn": "longitude", "dataCategory": "Longitude"},
+                    {"name": "region", "dataType": "string", "sourceColumn": "region"}
                 ],
                 "partitions": [
                     {
@@ -260,8 +264,11 @@ model_bim = {
             {
                 "name": "dim_commodity",
                 "columns": [
+                    {"name": "commodity_key", "dataType": "string", "sourceColumn": "commodity_key"},
                     {"name": "commodity_name", "dataType": "string", "sourceColumn": "commodity_name"},
                     {"name": "commodity_group", "dataType": "string", "sourceColumn": "commodity_group"},
+                    {"name": "variety_name", "dataType": "string", "sourceColumn": "variety_name"},
+                    {"name": "grade", "dataType": "string", "sourceColumn": "grade"},
                     {"name": "standard_unit", "dataType": "string", "sourceColumn": "standard_unit"}
                 ],
                 "partitions": [
@@ -377,21 +384,27 @@ model_bim = {
                 "fromTable": "fact_mandi_prices",
                 "fromColumn": "commodity_name",
                 "toTable": "dim_commodity",
-                "toColumn": "commodity_name"
+                "toColumn": "commodity_name",
+                "cardinality": "manyToMany",
+                "crossFilteringBehavior": "bothDirections"
             },
             {
                 "name": "Location_To_MandiPrices",
                 "fromTable": "fact_mandi_prices",
                 "fromColumn": "state_name",
                 "toTable": "dim_location",
-                "toColumn": "state_name"
+                "toColumn": "state_name",
+                "cardinality": "manyToMany",
+                "crossFilteringBehavior": "bothDirections"
             },
             {
                 "name": "Location_To_CropProduction",
                 "fromTable": "fact_crop_production",
                 "fromColumn": "state_name",
                 "toTable": "dim_location",
-                "toColumn": "state_name"
+                "toColumn": "state_name",
+                "cardinality": "manyToMany",
+                "crossFilteringBehavior": "bothDirections"
             }
         ]
     }
@@ -400,4 +413,4 @@ model_bim = {
 with open(os.path.join(DATASET_DIR, "model.bim"), "w", encoding="utf-8") as f:
     json.dump(model_bim, f, indent=2)
 
-print("model.bim and dataset manifest generated successfully!")
+print("model.bim and dataset manifest generated successfully with complete schemas!")
