@@ -165,8 +165,7 @@
           {
             "name": "month_name",
             "dataType": "string",
-            "sourceColumn": "month_name",
-            "sortByColumn": "month"
+            "sourceColumn": "month_name"
           },
           {
             "name": "day",

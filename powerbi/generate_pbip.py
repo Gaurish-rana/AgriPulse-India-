@@ -218,7 +218,7 @@ model_bim = {
                     {"name": "full_date", "dataType": "dateTime", "sourceColumn": "full_date"},
                     {"name": "year", "dataType": "int64", "sourceColumn": "year"},
                     {"name": "month", "dataType": "int64", "sourceColumn": "month"},
-                    {"name": "month_name", "dataType": "string", "sourceColumn": "month_name", "sortByColumn": "month"},
+                    {"name": "month_name", "dataType": "string", "sourceColumn": "month_name"},
                     {"name": "day", "dataType": "int64", "sourceColumn": "day"},
                     {"name": "day_of_year", "dataType": "int64", "sourceColumn": "day_of_year"},
                     {"name": "quarter", "dataType": "int64", "sourceColumn": "quarter"},
