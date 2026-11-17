@@ -57,18 +57,113 @@ with open(os.path.join(REPORT_DIR, "definition.pbir"), "w", encoding="utf-8") as
     json.dump(report_def, f, indent=2)
 
 # 4. Construct TMSL Model (model.bim)
-def make_file_m_partition(csv_name: str):
-    """Generates standard Power Query M script reading local conformed ClickHouse data CSV."""
+def make_file_m_partition(csv_name: str, type_transforms: list = None):
+    """Generates standard Power Query M script reading local conformed ClickHouse data CSV with explicit types."""
     full_path = f"{DATA_DIR}/{csv_name}".replace("/", "\\")
     escaped_path = full_path.replace("\\", "\\\\")
-    m_script = [
+    if not type_transforms:
+        return [
+            "let",
+            f'    Source = Csv.Document(File.Contents("{escaped_path}"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),',
+            "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+            "in",
+            "    PromotedHeaders"
+        ]
+    
+    transform_entries = ", ".join([f'{{"{col}", {m_type}}}' for col, m_type in type_transforms])
+    return [
         "let",
         f'    Source = Csv.Document(File.Contents("{escaped_path}"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),',
-        "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+        "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+        f"    ChangedTypes = Table.TransformColumnTypes(PromotedHeaders, {{{transform_entries}}})",
         "in",
-        "    PromotedHeaders"
+        "    ChangedTypes"
     ]
-    return m_script
+
+dim_date_types = [
+    ("date_key", "Int64.Type"),
+    ("full_date", "type date"),
+    ("year", "Int64.Type"),
+    ("month", "Int64.Type"),
+    ("month_name", "type text"),
+    ("day", "Int64.Type"),
+    ("day_of_year", "Int64.Type"),
+    ("quarter", "Int64.Type"),
+    ("day_of_week", "Int64.Type"),
+    ("day_name", "type text"),
+    ("is_weekend", "Int64.Type"),
+    ("agricultural_year", "type text"),
+]
+
+dim_location_types = [
+    ("location_key", "type text"),
+    ("state_name", "type text"),
+    ("district_name", "type text"),
+    ("market_name", "type text"),
+    ("location_type", "type text"),
+    ("region", "type text"),
+]
+
+dim_commodity_types = [
+    ("commodity_key", "type text"),
+    ("commodity_name", "type text"),
+    ("commodity_group", "type text"),
+    ("variety_name", "type text"),
+    ("grade", "type text"),
+    ("standard_unit", "type text"),
+]
+
+fact_mandi_types = [
+    ("mandi_fact_key", "type text"),
+    ("date_key", "Int64.Type"),
+    ("arrival_date", "type date"),
+    ("state_name", "type text"),
+    ("district_name", "type text"),
+    ("market_name", "type text"),
+    ("commodity_name", "type text"),
+    ("variety_name", "type text"),
+    ("grade", "type text"),
+    ("modal_price_inr_quintal", "type number"),
+    ("min_price_inr_quintal", "type number"),
+    ("max_price_inr_quintal", "type number"),
+    ("price_spread_inr_quintal", "type number"),
+    ("arrival_quantity_quintals", "type number"),
+    ("currency", "type text"),
+    ("price_unit", "type text"),
+    ("is_price_relation_valid", "Int64.Type"),
+]
+
+fact_crop_types = [
+    ("crop_fact_key", "type text"),
+    ("crop_year", "Int64.Type"),
+    ("state_name", "type text"),
+    ("district_name", "type text"),
+    ("crop_name", "type text"),
+    ("season", "type text"),
+    ("area_hectares", "type number"),
+    ("production", "type number"),
+    ("production_unit", "type text"),
+    ("production_tonnes", "type number"),
+    ("production_coconut_nuts", "type number"),
+    ("yield_tonnes_per_hectare", "type number"),
+    ("yield_coconut_nuts_per_hectare", "type number"),
+    ("is_production_missing", "Int64.Type"),
+    ("is_incomplete_year", "Int64.Type"),
+]
+
+fact_weather_types = [
+    ("year", "Int64.Type"),
+    ("month", "Int64.Type"),
+    ("period_label", "type text"),
+    ("total_observations", "Int64.Type"),
+    ("national_avg_temperature", "type number"),
+    ("national_min_temperature", "type number"),
+    ("national_max_temperature", "type number"),
+    ("national_avg_daily_rainfall", "type number"),
+    ("national_total_rainfall", "type number"),
+    ("subzero_observations", "Int64.Type"),
+    ("extreme_rainfall_events", "Int64.Type"),
+]
 
 model_bim = {
     "name": "AgriPulse_India",
@@ -121,12 +216,12 @@ model_bim = {
                     },
                     {
                         "name": "Total Field Crop Production (Tonnes)",
-                        "expression": "CALCULATE(SUM('fact_crop_production'[production_tonnes]), 'fact_crop_production'[production_tonnes] > 0)",
+                        "expression": "SUM('fact_crop_production'[production_tonnes])",
                         "formatString": "#,##0.0,, \" M Tonnes\""
                     },
                     {
                         "name": "Total Coconut Production (Nuts)",
-                        "expression": "CALCULATE(SUM('fact_crop_production'[production_coconut_nuts]), 'fact_crop_production'[production_coconut_nuts] > 0)",
+                        "expression": "SUM('fact_crop_production'[production_coconut_nuts])",
                         "formatString": "#,##0.0,,,\" B Nuts\""
                     },
                     {
@@ -166,7 +261,7 @@ model_bim = {
                     },
                     {
                         "name": "Average Field Crop Yield (Tonnes/Ha)",
-                        "expression": "DIVIDE(SUM('fact_crop_production'[production_tonnes]), CALCULATE(SUM('fact_crop_production'[area_hectares]), 'fact_crop_production'[production_tonnes] > 0), BLANK())",
+                        "expression": "DIVIDE(SUM('fact_crop_production'[production_tonnes]), CALCULATE(SUM('fact_crop_production'[area_hectares]), 'fact_crop_production'[production_unit] = \"Tonnes\"), BLANK())",
                         "formatString": "0.00 \"T/Ha\""
                     },
                     {
@@ -233,7 +328,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_file_m_partition("dim_date.csv")
+                            "expression": make_file_m_partition("dim_date.csv", dim_date_types)
                         }
                     }
                 ]
@@ -256,7 +351,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_file_m_partition("dim_location.csv")
+                            "expression": make_file_m_partition("dim_location.csv", dim_location_types)
                         }
                     }
                 ]
@@ -277,7 +372,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_file_m_partition("dim_commodity.csv")
+                            "expression": make_file_m_partition("dim_commodity.csv", dim_commodity_types)
                         }
                     }
                 ]
@@ -309,7 +404,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_file_m_partition("fact_mandi_prices.csv")
+                            "expression": make_file_m_partition("fact_mandi_prices.csv", fact_mandi_types)
                         }
                     }
                 ]
@@ -339,7 +434,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_file_m_partition("fact_crop_production.csv")
+                            "expression": make_file_m_partition("fact_crop_production.csv", fact_crop_types)
                         }
                     }
                 ]
@@ -365,7 +460,7 @@ model_bim = {
                         "mode": "import",
                         "source": {
                             "type": "m",
-                            "expression": make_file_m_partition("fact_weather_trends.csv")
+                            "expression": make_file_m_partition("fact_weather_trends.csv", fact_weather_types)
                         }
                     }
                 ]
